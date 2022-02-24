@@ -38,3 +38,7 @@ Why it's better?
 
 Since the [system](https://igis.ru/gortrans/) has information about the cities of the Udmurt Republic and other modes of transport,
 our service may provide this information in the future. Stay tuned 🚎.
+
+## License
+
+This project is licensed with the [MIT license](LICENSE).
