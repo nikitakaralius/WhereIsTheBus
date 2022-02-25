@@ -1,4 +1,5 @@
 # Where Is The Bus
+[![.NET Core](https://github.com/nikitakaralyus/WhereIsTheBus/actions/workflows/dotnet.yml/badge.svg)](https://github.com/nikitakaralyus/WhereIsTheBus/actions/workflows/dotnet.yml)
 
 <br />
 This application is designed to provide structured information about bus schedules in Izhevsk using Telegram Bot.
