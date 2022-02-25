@@ -21,5 +21,3 @@ type RouteParser =
             let! routeStations = directionFunction this.StationsUrl
             return routeStations.Join(arrival, fst, fst, toStation)
         }
-
-
