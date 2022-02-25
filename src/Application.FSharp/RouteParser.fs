@@ -5,7 +5,8 @@ open System.Linq
 
 type RouteParser =
     {
-        Url: string
+        StationsUrl: string
+        ArrivalsUrl: string
     }
 
     member this.DirectRouteScheduleAsync() =
@@ -16,8 +17,8 @@ type RouteParser =
 
     member this.ScheduleOf directionFunction =
         task {
-            let! arrival = arrivalsAsync this.Url
-            let! routeStations = directionFunction this.Url
+            let! arrival = arrivalsAsync this.StationsUrl
+            let! routeStations = directionFunction this.StationsUrl
             return routeStations.Join(arrival, fst, fst, toStation)
         }
 
