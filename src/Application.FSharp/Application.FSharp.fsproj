@@ -10,7 +10,8 @@
   <ItemGroup>
     <Compile Include="Providers.fs" />
     <Compile Include="HelperFunctions.fs" />
-    <Compile Include="Parser.fs" />
+    <Compile Include="Parsing.fs" />
+    <Compile Include="RouteParser.fs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,18 +2,19 @@
 
 open System.Text.RegularExpressions
 open FSharp.Data
+open WhereIsTheBus.Domain.Entities
+open WhereIsTheBus.Domain.ValueObjects
 
-module internal Parser =
+module internal Parsing =
     let private transportsStopRegex = Regex "(?<='\\[)(.*)(?=\\]')"
     let private arrivalRegex = Regex "(?<=<small class=grey>)(.*)(?=</small>)"
-    let private whiteSpace = "&nbsp;"
 
     let parseAjaxSchedule (ajax: HtmlDocument) =
         ajax.ToString().Split()
         |> Seq.map (fun x -> transportsStopRegex.Match(x) |> string, arrivalRegex.Match(x) |> string)
-        |> Seq.map (fun (x, y) -> x |> withDigitsOnly, y.Replace(whiteSpace, " "))
+        |> Seq.map (fun (x, y) -> x |> withDigitsOnly, y |> withDigitsOnly)
         |> Seq.where (fun (x, _) -> x |> isNotEmpty)
-        |> Seq.map (fun (x, y) -> x |> int, (if y |> isEmpty then "0 мин" else y))
+        |> Seq.map (fun (x, y) -> x |> int, (if y |> isEmpty then 0 else y |> int))
 
     let parseRouteTable (table: HtmlNode) =
         table.Descendants "a"
@@ -22,22 +23,25 @@ module internal Parser =
                 x.TryGetAttribute("href")
                 |> Option.map (fun a -> a.Value() |> withDigitsOnly |> int, x.InnerText()))
 
-    let scheduleAsync url =
+    let arrivalsAsync url =
         task {
-            let! document = Schedule.AsyncLoad(url)
+            let! document = Arrivals.AsyncLoad(url)
             return document.Html |> parseAjaxSchedule
         }
 
-    let directRouteAsync url =
+    let directStations url =
         task {
-            let! document = Route.AsyncLoad(url)
+            let! document = RouteStations.AsyncLoad(url)
             return document.Tables.Table7.Html
                    |> parseRouteTable
         }
 
-    let returnRouteAsync url =
+    let returnStations url =
         task {
-            let! document = Route.AsyncLoad(url)
+            let! document = RouteStations.AsyncLoad(url)
             return document.Tables.Table8.Html
                    |> parseRouteTable
         }
+
+    let toStation  (station: int * string) (arrival : int * int) =
+        Station(fst arrival, snd station, Arrival(snd arrival))
