@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FunScript.Data" Version="1.1.94" />
+    <PackageReference Include="FSharp.Data" Version="4.2.7" />
   </ItemGroup>
 
 </Project>
