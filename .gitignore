@@ -11,3 +11,4 @@ bin/
 Bin/
 obj/
 Obj/
+*.DotSettings.user

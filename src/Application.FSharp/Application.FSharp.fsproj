@@ -8,11 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Library.fs" />
+    <Compile Include="Providers.fs" />
+    <Compile Include="HelperFunctions.fs" />
+    <Compile Include="Parsing.fs" />
+    <Compile Include="RouteParser.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FSharp.Data" Version="4.2.7" />
   </ItemGroup>
 
 </Project>
