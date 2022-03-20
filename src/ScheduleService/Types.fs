@@ -2,4 +2,4 @@ module WhereIsTheBus.ScheduleService.Types
 
 type Arrival = { StopId: int; TimeToArrive: int }
 
-type Stop = { Id: int; Name: string }
+type Stop = { Id: int; Name: string; TimeToArrive: int }

@@ -7,4 +7,4 @@ let withDigitsOnly text = text |> String.filter Char.IsDigit
 
 let isEmpty str = String.IsNullOrEmpty str
 
-let isNotEmpty str = isEmpty str = false
+let isNotEmpty str = not (isEmpty str)

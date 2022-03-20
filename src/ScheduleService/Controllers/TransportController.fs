@@ -7,9 +7,15 @@ open WhereIsTheBus.ScheduleService.Parser
 [<Route("/api/[controller]")>]
 type TransportController() =
     inherit ControllerBase()
-    
-    [<HttpGet>]
-    member _.Get() =
+
+    [<HttpGet("{bus:int}")>]
+    member _.StopsOf(bus: int) =
         task {
-            return! asyncDirectRouteStops "https://igis.ru/gortrans/bus/izh/29"
+            try
+                let! stops = asyncScheduleOf directRoute
+                                 $"https://igis.ru/gortrans/bus/izh/{bus}"
+                                 $"https://igis.ru/com/gortrans/page/online.php?nom={bus}&mode=1"
+                return OkObjectResult stops :> IActionResult
+            with
+            _ -> return NotFoundResult()
         }
