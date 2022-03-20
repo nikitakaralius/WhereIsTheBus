@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>WhereIsTheBus.ScheduleService</RootNamespace>
+    <AssemblyName>WhereIsTheBus.ScheduleService</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
