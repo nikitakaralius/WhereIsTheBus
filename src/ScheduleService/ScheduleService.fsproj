@@ -7,11 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Types.fs" />
+    <Compile Include="Providers.fs" />
+    <Compile Include="HelperFunctions.fs" />
+    <Compile Include="Parser.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FSharp.Data" Version="4.2.8" />
+    <PackageReference Include="FSharp.Data" Version="4.2.7" />
   </ItemGroup>
 
 </Project>
