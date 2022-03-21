@@ -17,7 +17,7 @@ let private mode route =
     | Trolleybus -> "2"
     | Tram -> "4"
 
-let stopsUrlOf route =
+let stopsUrl route =
     UriBuilder()
         .UseHttps()
         .WithHost(host)
@@ -25,12 +25,14 @@ let stopsUrlOf route =
         .WithPathSegment(route |> transport)
         .WithPathSegment(route.Number |> string)
         .Uri
+        .ToString()
 
-let arrivalsUrlOf route =
+let arrivalsUrl route =
     UriBuilder()
         .UseHttps()
         .WithHost(host)
-        .WithPathSegment("com/page/online.php")
+        .WithPathSegment("com/gortrans/page/online.php")
         .WithParameter("nom", route.Number |> string)
         .WithParameter("mode", route |> mode)
         .Uri
+        .ToString()

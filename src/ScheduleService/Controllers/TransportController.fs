@@ -1,20 +1,22 @@
 namespace WhereIsTheBus.ScheduleService.Controllers
 
 open Microsoft.AspNetCore.Mvc
+open WhereIsTheBus.ScheduleService.Types
 open WhereIsTheBus.ScheduleService.Parser
+open WhereIsTheBus.ScheduleService.RouteUrlBuilder
 
 [<ApiController>]
 [<Route("/api/[controller]")>]
 type TransportController() =
     inherit ControllerBase()
 
-    [<HttpGet("{bus:int}")>]
-    member _.StopsOf(bus: int) =
+    [<HttpGet>]
+    member _.StopsOf(route: Route) =
         task {
             try
-                let! stops = asyncScheduleOf directRoute
-                                 $"https://igis.ru/gortrans/bus/izh/{bus}"
-                                 $"https://igis.ru/com/gortrans/page/online.php?nom={bus}&mode=1"
+                let stopsUrl = route |> stopsUrl
+                let arrivalsUrl = route |> arrivalsUrl
+                let! stops = asyncScheduleOf directRoute stopsUrl arrivalsUrl
                 return OkObjectResult stops :> IActionResult
             with
             _ -> return NotFoundResult()
