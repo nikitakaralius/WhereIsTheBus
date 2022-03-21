@@ -1,7 +1,5 @@
 module WhereIsTheBus.ScheduleService.Types
 
-open System.Text.Json.Serialization
-
 type Transport =
     | Bus
     | Trolleybus
