@@ -1,0 +1,64 @@
+module WhereIsTheBus.ScheduleService.Parser
+
+open System.Text.RegularExpressions
+open System.Threading.Tasks
+open FSharp.Data
+open System.Linq
+open WhereIsTheBus.ScheduleService.Providers
+open WhereIsTheBus.ScheduleService.Types
+
+let private transportStopsRegex = Regex "(?<='\\[)(.*)(?=\\]')"
+
+let private arrivalsRegex = Regex "(?<=<small class=grey>)(.*)(?=</small>)"
+
+let private parseArrivals (queryContent: HtmlDocument) =
+    queryContent.ToString().Split('\n')
+    |> Seq.map (fun x -> transportStopsRegex.Match x |> string |> withDigitsOnly,
+                         arrivalsRegex.Match x |> string |> withDigitsOnly)
+    |> Seq.where (fun (x, _) -> x |> isNotEmpty)
+    |> Seq.map (fun (x, y) -> {
+        StopId = x |> int
+        TimeToArrive = (if y |> isEmpty then 0 else y |> int)
+    })
+
+let private parseStops (table: HtmlNode) =
+    table.Descendants "a"
+    |> Seq.choose
+        (fun x ->
+            x.TryGetAttribute("href")
+            |> Option.map (fun a -> {
+                Id = a.Value() |> withDigitsOnly |> int
+                Name = x.InnerText()
+                TimeToArrive = 0
+            }))
+
+let private merge (stop: Stop) (arrival: Arrival) = { stop with TimeToArrive = arrival.TimeToArrive }
+
+let private arrivalId arrival = arrival.StopId
+
+let private stopId stop = stop.Id;
+
+let asyncArrivals url =
+    task {
+        let! document = ArrivalsProvider.AsyncLoad url
+        return document.Html |> parseArrivals
+    }
+
+let directRoute url =
+    task {
+        let! document = RouteStationsProvider.AsyncLoad url
+        return document.Tables.Table8.Html |> parseStops
+    }
+
+let returnRoute url =
+    task {
+        let! document = RouteStationsProvider.AsyncLoad url
+        return document.Tables.Table7.Html |> parseStops
+    }
+
+let asyncScheduleOf (routeStops: string -> Task<seq<Stop>>) stopsUrl arrivalsUrl =
+    task {
+        let! arrivals = asyncArrivals arrivalsUrl
+        let! stops = routeStops stopsUrl
+        return stops.Join(arrivals, stopId, arrivalId, merge)
+    }
