@@ -1,9 +1,5 @@
 module WhereIsTheBus.ScheduleService.Types
 
-type Arrival = { StopId: int; TimeToArrive: int }
-
-type Stop = { Id: int; Name: string; TimeToArrive: int }
-
 type Transport =
     | Bus
     | Trolleybus
@@ -12,5 +8,9 @@ type Transport =
 type Direction =
     | Direct
     | Return
+
+type Arrival = { StopId: int; TimeToArrive: int }
+
+type Stop = { Id: int; Name: string; TimeToArrive: int }
 
 type Route = { Type: Transport; Number: int; Direction: Direction  }
