@@ -3,7 +3,6 @@ namespace WhereIsTheBus.ScheduleService.Controllers
 open Microsoft.AspNetCore.Http
 open Microsoft.AspNetCore.Mvc
 open WhereIsTheBus.ScheduleService.Parser
-open WhereIsTheBus.ScheduleService.RouteUrlBuilder
 open WhereIsTheBus.ScheduleService.Types
 
 [<ApiController>]
@@ -15,8 +14,8 @@ type TransportController() =
     member _.StopsOf(route: Route) =
         task {
             try
-                let! stops = asyncScheduleOf directRoute (route |> stopsUrl) (route |> arrivalsUrl)
-                return Results.Ok stops
+                let! schedule = route |> schedule 
+                return Results.Ok schedule
             with
             _ -> return Results.NotFound()
         }
