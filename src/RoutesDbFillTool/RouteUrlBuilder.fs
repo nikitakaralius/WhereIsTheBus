@@ -1,7 +1,7 @@
-module WhereIsTheBus.ScheduleService.RouteUrlBuilder
+module WhereIsTheBus.RoutesDbFillTool.RouteUrlBuilder
 
 open System
-open WhereIsTheBus.ScheduleService.Types
+open WhereIsTheBus.RoutesDbFillTool.Types
 
 let private host = "igis.ru"
 

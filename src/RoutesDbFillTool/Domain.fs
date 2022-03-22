@@ -1,4 +1,4 @@
-module WhereIsTheBus.ScheduleService.Types
+module WhereIsTheBus.RoutesDbFillTool.Types
 
 type Transport =
     | Bus

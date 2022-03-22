@@ -1,5 +1,4 @@
-[<AutoOpen>]
-module WhereIsTheBus.ScheduleService.HelperFunctions
+module WhereIsTheBus.RoutesDbFillTool.HelperFunctions
 
 open System
 

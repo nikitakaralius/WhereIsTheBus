@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3B379E8B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.UnitTests", "tests\Domain.UnitTests\Domain.UnitTests.csproj", "{F54D580D-5554-483A-AE89-18C36048893D}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ScheduleService", "src\ScheduleService\ScheduleService.fsproj", "{AC613534-2C2D-49CE-B9D8-85D2B1B8E788}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "RoutesDbFillTool", "src\RoutesDbFillTool\RoutesDbFillTool.fsproj", "{AC613534-2C2D-49CE-B9D8-85D2B1B8E788}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

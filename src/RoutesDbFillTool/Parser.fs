@@ -1,12 +1,12 @@
-module WhereIsTheBus.ScheduleService.Parser
+module WhereIsTheBus.RoutesDbFillTool.Parser
 
 open System.Text.RegularExpressions
 open System.Threading.Tasks
 open FSharp.Data
-open System.Linq
-open WhereIsTheBus.ScheduleService.Providers
-open WhereIsTheBus.ScheduleService.Types
-open WhereIsTheBus.ScheduleService.RouteUrlBuilder
+open WhereIsTheBus.RoutesDbFillTool.Providers
+open WhereIsTheBus.RoutesDbFillTool.Types
+open WhereIsTheBus.RoutesDbFillTool.RouteUrlBuilder
+open WhereIsTheBus.RoutesDbFillTool.HelperFunctions
 
 let private transportStopsRegex = Regex "(?<='\\[)(.*)(?=\\]')"
 

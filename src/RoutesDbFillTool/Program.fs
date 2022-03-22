@@ -1,4 +1,4 @@
-namespace ScheduleService
+namespace WhereIsTheBus.RoutesDbFillTool
 
 #nowarn "20"
 
