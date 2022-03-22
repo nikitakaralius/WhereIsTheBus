@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <PackageReference Include="FSharp.Data" Version="4.2.7" />
-    <PackageReference Include="FSharp.SystemTextJson" Version="0.17.4" />
     <PackageReference Include="UriBuilder.Fluent" Version="1.5.2" />
   </ItemGroup>
 
