@@ -1,4 +1,4 @@
-module WhereIsTheBus.RoutesDbFillTool.Types
+module WhereIsTheBus.RoutesDbFillTool.Domain
 
 type Transport =
     | Bus

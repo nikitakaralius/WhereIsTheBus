@@ -5,7 +5,7 @@ open System.Threading.Tasks
 open System.Linq
 open FSharp.Data
 open WhereIsTheBus.RoutesDbFillTool.Providers
-open WhereIsTheBus.RoutesDbFillTool.Types
+open WhereIsTheBus.RoutesDbFillTool.Domain
 open WhereIsTheBus.RoutesDbFillTool.RouteUrlBuilder
 open WhereIsTheBus.RoutesDbFillTool.HelperFunctions
 
@@ -49,13 +49,13 @@ let private asyncArrivals url =
 let private directRoute url =
     task {
         let! document = RouteStopsProvider.AsyncLoad url
-        return document.Tables.Table8.Html |> parseStops
+        return document.Tables.Table7.Html |> parseStops
     }
 
 let private returnRoute url =
     task {
         let! document = RouteStopsProvider.AsyncLoad url
-        return document.Tables.Table7.Html |> parseStops
+        return document.Tables.Table8.Html |> parseStops
     }
 
 let private asyncScheduleOf (routeStops: string -> Task<seq<Stop>>) stopsUrl arrivalsUrl =

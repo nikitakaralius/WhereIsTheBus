@@ -1,7 +1,7 @@
 module WhereIsTheBus.RoutesDbFillTool.RouteUrlBuilder
 
 open System
-open WhereIsTheBus.RoutesDbFillTool.Types
+open WhereIsTheBus.RoutesDbFillTool.Domain
 
 let private host = "igis.ru"
 
