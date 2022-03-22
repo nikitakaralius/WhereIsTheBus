@@ -6,6 +6,7 @@ open FSharp.Data
 open System.Linq
 open WhereIsTheBus.ScheduleService.Providers
 open WhereIsTheBus.ScheduleService.Types
+open WhereIsTheBus.ScheduleService.RouteUrlBuilder
 
 let private transportStopsRegex = Regex "(?<='\\[)(.*)(?=\\]')"
 
@@ -38,27 +39,34 @@ let private arrivalId arrival = arrival.StopId
 
 let private stopId stop = stop.Id;
 
-let asyncArrivals url =
+let private asyncArrivals url =
     task {
         let! document = ArrivalsProvider.AsyncLoad url
         return document.Html |> parseArrivals
     }
 
-let directRoute url =
+let private directRoute url =
     task {
         let! document = RouteStationsProvider.AsyncLoad url
         return document.Tables.Table8.Html |> parseStops
     }
 
-let returnRoute url =
+let private returnRoute url =
     task {
         let! document = RouteStationsProvider.AsyncLoad url
         return document.Tables.Table7.Html |> parseStops
     }
 
-let asyncScheduleOf (routeStops: string -> Task<seq<Stop>>) stopsUrl arrivalsUrl =
+let private asyncScheduleOf (routeStops: string -> Task<seq<Stop>>) stopsUrl arrivalsUrl =
     task {
         let! arrivals = asyncArrivals arrivalsUrl
         let! stops = routeStops stopsUrl
         return stops.Join(arrivals, stopId, arrivalId, merge)
-    }
+    }    
+
+let private direction route =
+    match route.Direction with
+    | Direct -> directRoute
+    | Return -> returnRoute
+
+let schedule route = asyncScheduleOf (route |> direction) (route |> stopsUrl) (route |> arrivalsUrl)
