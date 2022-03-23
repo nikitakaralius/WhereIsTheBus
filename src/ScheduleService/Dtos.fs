@@ -1,7 +1,7 @@
 module WhereIsTheBus.ScheduleService.Dtos
 
 open System
-open WhereIsTheBus.ScheduleService.Types
+open WhereIsTheBus.ScheduleService.Domain
 
 type TransportDto =
     | Bus = 0

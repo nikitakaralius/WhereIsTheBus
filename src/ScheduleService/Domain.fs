@@ -1,4 +1,4 @@
-module WhereIsTheBus.ScheduleService.Types
+module WhereIsTheBus.ScheduleService.Domain
 
 type Transport =
     | Bus
