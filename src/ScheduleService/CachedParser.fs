@@ -1,6 +1,7 @@
 module WhereIsTheBus.ScheduleService.CachedParser
 
 open System.Collections.Generic
+open System.Linq
 open Domain
 open Parser
 open RouteUrlBuilder
@@ -10,7 +11,7 @@ let private stops = Dictionary<Route, IEnumerable<Stop>>()
 
 let cachedSchedule route =
     match stops.TryGetValue route with
-    | true, value -> task {
+    | true, value when value.Any() -> task {
         let! arrivals = asyncArrivals (route |> arrivalsUrl)
         return value |> mergeWith arrivals
         }
