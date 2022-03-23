@@ -13,6 +13,7 @@
     <Compile Include="HelperFunctions.fs" />
     <Compile Include="RouteUrlBuilder.fs" />
     <Compile Include="Parser.fs" />
+    <Compile Include="CachedParser.fs" />
     <Compile Include="Controllers/TransportController.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

@@ -33,36 +33,38 @@ let private parseStops (table: HtmlNode) =
                 TimeToArrive = 0
             }))
 
-let private merge (stop: Stop) (arrival: Arrival) = { stop with TimeToArrive = arrival.TimeToArrive }
+let private applyArrivalToStop (stop: Stop) (arrival: Arrival) = { stop with TimeToArrive = arrival.TimeToArrive }
 
 let private arrivalId arrival = arrival.StopId
 
 let private stopId stop = stop.Id;
 
-let private asyncArrivals url =
+let asyncArrivals url =
     task {
         let! document = ArrivalsProvider.AsyncLoad url
         return document.Html |> parseArrivals
     }
 
-let private directRoute url =
+let directRoute url =
     task {
         let! document = RouteStationsProvider.AsyncLoad url
         return document.Tables.Table8.Html |> parseStops
     }
 
-let private returnRoute url =
+let returnRoute url =
     task {
         let! document = RouteStationsProvider.AsyncLoad url
         return document.Tables.Table7.Html |> parseStops
     }
 
-let private asyncScheduleOf (routeStops: string -> Task<seq<Stop>>) stopsUrl arrivalsUrl =
+let mergeWith (arrivals: seq<Arrival>) (stops: seq<Stop>) = stops.Join(arrivals, stopId, arrivalId, applyArrivalToStop)
+
+let asyncScheduleOf (routeStops: string -> Task<seq<Stop>>) stopsUrl arrivalsUrl =
     task {
         let! arrivals = asyncArrivals arrivalsUrl
         let! stops = routeStops stopsUrl
-        return stops.Join(arrivals, stopId, arrivalId, merge)
-    }    
+        return stops |> mergeWith arrivals 
+    }
 
 let private direction route =
     match route.Direction with
