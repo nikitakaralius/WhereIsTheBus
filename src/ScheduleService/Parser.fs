@@ -5,7 +5,7 @@ open System.Threading.Tasks
 open FSharp.Data
 open System.Linq
 open WhereIsTheBus.ScheduleService.Providers
-open WhereIsTheBus.ScheduleService.Types
+open WhereIsTheBus.ScheduleService.Domain
 open WhereIsTheBus.ScheduleService.RouteUrlBuilder
 
 let private transportStopsRegex = Regex "(?<='\\[)(.*)(?=\\]')"
@@ -47,13 +47,13 @@ let asyncArrivals url =
 
 let directRoute url =
     task {
-        let! document = RouteStationsProvider.AsyncLoad url
+        let! document = RouteStopsProvider.AsyncLoad url
         return document.Tables.Table8.Html |> parseStops
     }
 
 let returnRoute url =
     task {
-        let! document = RouteStationsProvider.AsyncLoad url
+        let! document = RouteStopsProvider.AsyncLoad url
         return document.Tables.Table7.Html |> parseStops
     }
 

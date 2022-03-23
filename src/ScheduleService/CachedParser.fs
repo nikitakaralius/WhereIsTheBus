@@ -1,7 +1,7 @@
 module WhereIsTheBus.ScheduleService.CachedParser
 
 open System.Collections.Generic
-open Types
+open Domain
 open Parser
 open RouteUrlBuilder
 
