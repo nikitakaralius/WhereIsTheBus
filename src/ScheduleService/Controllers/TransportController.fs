@@ -1,6 +1,5 @@
 namespace WhereIsTheBus.ScheduleService.Controllers
 
-open Microsoft.AspNetCore.Http
 open Microsoft.AspNetCore.Mvc
 open WhereIsTheBus.ScheduleService.Dtos
 open WhereIsTheBus.ScheduleService.CachedParser
@@ -15,7 +14,7 @@ type TransportController() =
         task {
             try
                 let! schedule = dto.Domain() |> cachedSchedule
-                return Results.Ok schedule
+                return OkObjectResult schedule :> IActionResult
             with
-            _ -> return Results.NotFound()
+            _ -> return NotFoundResult()
         }
