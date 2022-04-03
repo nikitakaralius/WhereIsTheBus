@@ -8,6 +8,7 @@ builder.Services.AddHostedService<ConfigureWebhook>();
 builder.Services.AddHttpClient(clientName)
        .AddTypedClient<ITelegramBotClient>(
               httpClient => new TelegramBotClient(botConfiguration.Token, httpClient));
+builder.Services.AddScoped<IHandleUpdateService, HandleUpdateService>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
