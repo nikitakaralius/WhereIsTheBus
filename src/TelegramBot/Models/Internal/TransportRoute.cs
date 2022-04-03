@@ -1,6 +1,6 @@
 namespace WhereIsTheBus.TelegramBot.Models.Internal;
 
-internal record Route(Transport Transport, int Number, Direction Direction);
+internal record TransportRoute(Transport Transport, int Number, Direction Direction);
 
 internal enum Direction
 {
