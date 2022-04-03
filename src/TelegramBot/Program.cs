@@ -1,18 +1,27 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿const string clientName = "tgwebhook";
+
+var builder = WebApplication.CreateBuilder(args);
+
+var botConfiguration = builder.Configuration.OfBot();
 
 builder.Services.AddHostedService<ConfigureWebhook>();
-builder.Services.AddHttpClient("tgwebhook")
+builder.Services.AddHttpClient(clientName)
        .AddTypedClient<ITelegramBotClient>(
-              httpClient => new TelegramBotClient(builder.Configuration.OfBot().Token,
-                                                 httpClient));
+              httpClient => new TelegramBotClient(botConfiguration.Token, httpClient));
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
-app.UseHttpsRedirection();
+app.UseRouting();
+app.UseCors();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: clientName,
+        pattern: $"bot/{botConfiguration.Token}",
+        defaults: new { controller = "Webhook", action = "Post"});
 
-app.UseAuthorization();
-
-app.MapControllers();
+    endpoints.MapControllers();
+});
 
 app.Run();
