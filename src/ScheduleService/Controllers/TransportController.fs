@@ -15,7 +15,7 @@ type TransportController() =
         task {
             try
                 let! schedule = dto.Domain() |> cachedSchedule
-                return Results.Ok schedule
+                return OkObjectResult schedule :> IActionResult
             with
-            _ -> return Results.NotFound()
+            _ -> return NotFoundResult()
         }
