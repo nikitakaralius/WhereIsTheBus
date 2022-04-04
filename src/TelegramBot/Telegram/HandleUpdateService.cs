@@ -68,7 +68,7 @@ internal class HandleUpdateService : IHandleUpdateService
 
     private async Task<string> BusResponse(string[] args)
     {
-        Direction direction = args.Length < 1
+        Direction direction = args.Length <= 1
             ? Direction.Direct
             : args[1] switch
             {
