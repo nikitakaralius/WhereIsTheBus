@@ -39,9 +39,10 @@ internal class HandleUpdateService : IHandleUpdateService
 
     private async Task OnMessageReceived(Message message)
     {
-        string response = message.Text!.Split()[0] switch
+        string[] args = message.Text!.Split();
+        string response = args[0] switch
         {
-            "/29" => await BusResponse(),
+            "/29" => await BusResponse(args),
             _     => $"Sorry, we don't handle {message.Text}"
         };
         await _telegramClient.SendTextMessageAsync(message.Chat.Id, response, ParseMode.Markdown);
@@ -65,9 +66,17 @@ internal class HandleUpdateService : IHandleUpdateService
         return Task.CompletedTask;
     }
 
-    private async Task<string> BusResponse()
+    private async Task<string> BusResponse(string[] args)
     {
-        TransportRoute route = new(Transport.Bus, 29, Direction.Return);
+        Direction direction = args.Length < 1
+            ? Direction.Direct
+            : args[1] switch
+            {
+                "d" or "0" => Direction.Direct,
+                "r" or "1" => Direction.Return,
+                _ => Direction.Direct
+            };
+        TransportRoute route = new(Transport.Bus, 29, direction);
         IEnumerable<Stop> stops = await _scheduleClient.StopsAsync(route);
         stops = stops.Distinct();
         StringBuilder sb = new (200);
