@@ -1,4 +1,4 @@
-using System.Text.Json;
+using System.Text;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types.Enums;
 using WhereIsTheBus.TelegramBot.Services;
@@ -39,17 +39,17 @@ internal class HandleUpdateService : IHandleUpdateService
 
     private async Task OnMessageReceived(Message message)
     {
-        var response = message.Text!.Split()[0] switch
+        string response = message.Text!.Split()[0] switch
         {
             "/29" => await BusResponse(),
-            _     => $"Sorry, can not handle {message.Text}"
+            _     => $"Sorry, we don't handle {message.Text}"
         };
-        await _telegramClient.SendTextMessageAsync(message.Chat.Id, response);
+        await _telegramClient.SendTextMessageAsync(message.Chat.Id, response, ParseMode.Markdown);
     }
 
-    private async Task OnUnknownUpdateReceived(Update update)
+    private Task OnUnknownUpdateReceived(Update update)
     {
-
+        return Task.CompletedTask;
     }
     
     private Task HandleErrorAsync(Exception exception)
@@ -69,6 +69,13 @@ internal class HandleUpdateService : IHandleUpdateService
     {
         TransportRoute route = new(Transport.Bus, 29, Direction.Return);
         IEnumerable<Stop> stops = await _scheduleClient.StopsAsync(route);
-        return JsonSerializer.Serialize(stops);
+        stops = stops.Distinct();
+        StringBuilder sb = new (200);
+        foreach ((int _, string name, int timeToArrive) in stops)
+        {
+            sb.Append('*').Append(name).Append("* : ")
+              .Append(timeToArrive).Append(" мин.").AppendLine();
+        }
+        return sb.ToString();
     }
 }

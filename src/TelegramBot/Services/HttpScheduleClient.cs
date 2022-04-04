@@ -1,5 +1,3 @@
-using System.Text.Json;
-
 namespace WhereIsTheBus.TelegramBot.Services;
 
 internal class HttpScheduleClient : IScheduleClient
