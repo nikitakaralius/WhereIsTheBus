@@ -6,11 +6,11 @@ internal class Stop : IEquatable<Stop>
     public string Name { get; init; } = null!;
     public int TimeToArrive { get; init; }
 
-    public void Deconstruct(out int Id, out string Name, out int TimeToArrive)
+    public void Deconstruct(out int id, out string name, out int timeToArrive)
     {
-        Id = this.Id;
-        Name = this.Name;
-        TimeToArrive = this.TimeToArrive;
+        id = Id;
+        name = Name;
+        timeToArrive = TimeToArrive;
     }
 
     public bool Equals(Stop? other)

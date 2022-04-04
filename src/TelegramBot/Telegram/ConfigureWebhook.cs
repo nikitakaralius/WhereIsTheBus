@@ -1,6 +1,4 @@
-using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
-using WhereIsTheBus.TelegramBot.Configuration;
 
 namespace WhereIsTheBus.TelegramBot.Telegram;
 
