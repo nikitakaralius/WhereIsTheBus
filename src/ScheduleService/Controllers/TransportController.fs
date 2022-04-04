@@ -1,6 +1,5 @@
 namespace WhereIsTheBus.ScheduleService.Controllers
 
-open Microsoft.AspNetCore.Http
 open Microsoft.AspNetCore.Mvc
 open WhereIsTheBus.ScheduleService.Dtos
 open WhereIsTheBus.ScheduleService.CachedParser
