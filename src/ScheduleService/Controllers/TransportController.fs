@@ -9,7 +9,7 @@ open WhereIsTheBus.ScheduleService.CachedParser
 type TransportController() =
     inherit ControllerBase()
 
-    [<HttpGet>]
+    [<HttpPost>]
     member _.StopsOf(dto: RouteDto) =
         task {
             try
