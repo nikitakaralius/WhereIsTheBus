@@ -6,11 +6,19 @@ namespace WhereIsTheBus.TelegramBot.Telegram;
 
 internal class TelegramRouter : ITelegramRouter
 {
-    private static readonly Type BaseType = typeof(FromArgsQuery);
-    
-    public FromArgsQuery? QueryBy(string[] args)
+    private static readonly IEnumerable<Type> BaseTypes = new[]
     {
-        var matchingQuery = MatchingQuery(args);
+        typeof(FromMessageQuery)
+    };
+    
+    public FromMessageQuery? QueryFrom(Message message)
+    {
+        if (message.Text is null)
+        {
+            return null;
+        }
+        
+        var matchingQuery = MatchingQuery(message.Text.Split());
 
         if (matchingQuery is null)
         {
@@ -26,7 +34,7 @@ internal class TelegramRouter : ITelegramRouter
             throw new InvalidOperationException("Found a constructor that does not define a string[] argument");
         }
 
-        return (FromArgsQuery) constructor.Invoke(new object?[] {args});
+        return (FromMessageQuery) constructor.Invoke(new object?[] {message});
     }
 
     private static Type? MatchingQuery(string[] args) =>
@@ -38,7 +46,7 @@ internal class TelegramRouter : ITelegramRouter
 
     private static bool TypeMatches(Type type) =>
         type.IsAbstract == false
-        && BaseType.IsAssignableFrom(type);
+        && BaseTypes.Any(x => x.IsAssignableFrom(type));
 
     private static bool AttributeMatches(Type type, string[] args)
     {

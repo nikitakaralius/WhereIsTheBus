@@ -4,5 +4,5 @@ namespace WhereIsTheBus.TelegramBot.Telegram;
 
 internal interface ITelegramRouter
 {
-    FromArgsQuery? QueryBy(string[] args);
+    FromMessageQuery? QueryFrom(Message message);
 }
