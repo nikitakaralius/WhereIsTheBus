@@ -9,5 +9,10 @@ internal abstract class FromMessageQuery<TParam> : FromMessageQuery
 
 internal abstract class FromMessageQuery : IRequest
 {
-    protected FromMessageQuery(Message message) { }
+    protected FromMessageQuery(Message message)
+    {
+        Message = message;
+    }
+    
+    public Message Message { get; }
 }
