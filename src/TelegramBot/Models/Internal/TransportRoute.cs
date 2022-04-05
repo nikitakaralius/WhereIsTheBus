@@ -4,7 +4,7 @@ internal record TransportRoute(Transport Transport, int Number, Direction Direct
 {
     public static TransportRoute? Parse(string[] args)
     {
-        if (args.Length < 3)
+        if (args.Length < 2)
         {
             return null;
         }
@@ -22,26 +22,24 @@ internal record TransportRoute(Transport Transport, int Number, Direction Direct
             return null;
         }
 
-        Direction? direction = args[2] switch
+        Direction direction = args.Length >= 3 ? args[2] switch
         {
             "0" or "d" or "direct" => Direction.Direct,
             "1" or "r" or "return" => Direction.Return,
-            _                      => null
-        };
+            _                      => Direction.Both
+        } : Direction.Both;
 
-        if (transport is null || direction is null)
-        {
-            return null;
-        }
-
-        return new TransportRoute(transport.Value, number, direction.Value);
+        return transport is null
+            ? null
+            : new TransportRoute(transport.Value, number, direction);
     }
 }
 
 internal enum Direction
 {
     Direct = 0,
-    Return = 1
+    Return = 1,
+    Both = 2
 }
 
 internal enum Transport
