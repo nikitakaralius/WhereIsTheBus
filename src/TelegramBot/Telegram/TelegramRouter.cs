@@ -27,11 +27,11 @@ internal class TelegramRouter : ITelegramRouter
         
         var constructor = matchingQuery.GetConstructor(
             BindingFlags.Instance | BindingFlags.Public,
-            new[] {typeof(string[])});
+            new[] {typeof(Message)});
 
         if (constructor is null)
         {
-            throw new InvalidOperationException("Found a constructor that does not define a string[] argument");
+            throw new InvalidOperationException("Found a constructor that does not define a Message argument");
         }
 
         return (FromMessageQuery) constructor.Invoke(new object?[] {message});
