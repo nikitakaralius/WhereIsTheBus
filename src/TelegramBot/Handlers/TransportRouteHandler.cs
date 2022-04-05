@@ -50,7 +50,7 @@ internal class TransportRouteHandler : IRequestHandler<TransportRouteQuery>
         
         foreach ((int _, string name, int timeToArrive) in from)
         {
-            sb.Append($"{directionCharacter} **{name}**: {timeToArrive} мин.").AppendLine();
+            sb.Append($"{directionCharacter} *{name}*: _{timeToArrive} мин._").AppendLine();
         }
         
         return sb.ToString();
