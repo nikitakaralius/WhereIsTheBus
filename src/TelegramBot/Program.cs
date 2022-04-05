@@ -1,19 +1,18 @@
-﻿using WhereIsTheBus.TelegramBot.Services;
-
-const string clientName = "tgwebhook";
+﻿const string clientName = "tgwebhook";
 
 var builder = WebApplication.CreateBuilder(args);
 
 var botConfiguration = builder.Configuration.OfBot();
 
+builder.Services.AddMediatR(typeof(Program));
 builder.Services.AddHostedService<ConfigureWebhook>();
 builder.Services.AddHttpClient(clientName)
-       .AddTypedClient<ITelegramBotClient>(
+                .AddTypedClient<ITelegramBotClient>(
               httpClient => new TelegramBotClient(botConfiguration.Token, httpClient));
 builder.Services.AddHttpClient<IScheduleClient, HttpScheduleClient>();
 builder.Services.AddScoped<IHandleUpdateService, HandleUpdateService>();
 builder.Services.AddControllers()
-       .AddNewtonsoftJson();
+                .AddNewtonsoftJson();
 
 var app = builder.Build();
 
