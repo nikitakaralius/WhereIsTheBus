@@ -8,9 +8,9 @@ open WhereIsTheBus.ScheduleService.Providers
 open WhereIsTheBus.ScheduleService.InternalDomain
 open WhereIsTheBus.ScheduleService.RouteUrlBuilder
 
-let private transportStopsRegex = Regex "(?<='\\[)(.*)(?=\\]')"
+let private transportStopsRegex = Regex("(?<='\\[)(.*)(?=\\]')", RegexOptions.Compiled)
 
-let private arrivalsRegex = Regex "(?<=<small class=grey>)(.*)(?=</small>)"
+let private arrivalsRegex = Regex("(?<=<small class=grey>)(.*)(?=</small>)", RegexOptions.Compiled)
 
 let private parseArrivals (queryContent: HtmlDocument) =
     queryContent.ToString().Split('\n')
