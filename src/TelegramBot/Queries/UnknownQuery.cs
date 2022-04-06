@@ -1,6 +1,6 @@
 namespace WhereIsTheBus.TelegramBot.Queries;
 
-internal class UnknownQuery : FromUpdateQuery
+internal sealed class UnknownQuery : FromUpdateQuery
 {
     public UnknownQuery(UpdateEvent update) : base(update)
     {
