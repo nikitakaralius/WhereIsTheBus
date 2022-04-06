@@ -22,7 +22,7 @@ let private parseArrivals (queryContent: HtmlDocument) =
         TimeToArrive = (if y |> isEmpty then 0 else y |> int)
     })
 
-let private parseStops (table: HtmlNode) =
+let private parseStops direction (table: HtmlNode) =
     table.Descendants "a"
     |> Seq.choose
         (fun x ->
@@ -31,6 +31,7 @@ let private parseStops (table: HtmlNode) =
                 Id = a.Value() |> withDigitsOnly |> int
                 Name = x.InnerText()
                 TimeToArrive = 0
+                Direction = direction
             }))
 
 let private applyArrivalToStop (stop: TransportStop) (arrival: Arrival) = { stop with TimeToArrive = arrival.TimeToArrive }
@@ -48,13 +49,13 @@ let asyncArrivals url =
 let directRoute url =
     task {
         let! document = RouteStopsProvider.AsyncLoad url
-        return document.Tables.Table8.Html |> parseStops
+        return document.Tables.Table8.Html |> parseStops Direction.Direct 
     }
 
 let returnRoute url =
     task {
         let! document = RouteStopsProvider.AsyncLoad url
-        return document.Tables.Table7.Html |> parseStops
+        return document.Tables.Table7.Html |> parseStops Direction.Return
     }
 
 let bothRoutes url =

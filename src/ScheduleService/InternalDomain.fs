@@ -15,6 +15,7 @@ type Arrival = { StopId: int; TimeToArrive: int }
 type TransportStop =
     { Id: int
       Name: string
+      Direction: Direction
       TimeToArrive: int }
 
 type TransportRoute =

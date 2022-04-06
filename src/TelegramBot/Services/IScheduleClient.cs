@@ -2,5 +2,5 @@ namespace WhereIsTheBus.TelegramBot.Services;
 
 internal interface IScheduleClient
 {
-    Task<IEnumerable<Stop>> StopsAsync(TransportRoute route);
+    Task<IEnumerable<TransportStop>> StopsAsync(TransportRoute route);
 }

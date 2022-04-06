@@ -1,5 +1,6 @@
 using System.Text;
 using Telegram.Bot.Types.Enums;
+using WhereIsTheBus.Domain.Enums;
 using WhereIsTheBus.TelegramBot.Queries;
 
 namespace WhereIsTheBus.TelegramBot.Handlers;
@@ -28,8 +29,8 @@ internal class TransportRouteHandler : IRequestHandler<TransportRouteQuery>
             return Unit.Value;
         }
 
-        IEnumerable<Stop> stops = await _scheduleClient.StopsAsync(request.Value);
-        string message = GenerateMessage(from: stops, request.Value.Direction);
+        IEnumerable<TransportStop> stops = await _scheduleClient.StopsAsync(request.Value);
+        string message = GenerateMessage(from: stops);
         await _telegramClient.SendTextMessageAsync(
             request.Message.Chat.Id, message,
             ParseMode.Markdown,
@@ -37,22 +38,23 @@ internal class TransportRouteHandler : IRequestHandler<TransportRouteQuery>
         return Unit.Value;
     }
 
-    private string GenerateMessage(IEnumerable<Stop> from, Direction direction)
+    private string GenerateMessage(IEnumerable<TransportStop> from)
     {
         StringBuilder sb = new(AverageMessageLength);
 
-        string directionCharacter = direction switch
+        foreach ((int _, string name, var direction, int timeToArrive) in from)
         {
-            Direction.Direct => "⬇️",
-            Direction.Return => "⬆️",
-            _ => throw new ArgumentOutOfRangeException(nameof(direction),"Direction can only be direct and return")
-        };
-        
-        foreach ((int _, string name, int timeToArrive) in from)
-        {
+            string directionCharacter = direction switch
+            {
+                StrictDirection.Direct => "⬇️",
+                StrictDirection.Return => "⬆️",
+                StrictDirection.None or _ => throw new ArgumentOutOfRangeException(
+                    nameof(direction), "Direction can only be direct and return")
+            };
+
             sb.Append($"{directionCharacter} *{name}*: _{timeToArrive} мин._").AppendLine();
         }
-        
+
         return sb.ToString();
     }
 }
