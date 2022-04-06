@@ -1,6 +1,6 @@
 namespace WhereIsTheBus.Domain.Records;
 
-internal record TransportRoute(Transport Transport, int Number, Direction Direction)
+public record TransportRoute(Transport Transport, int Number, Direction Direction)
 {
     public static TransportRoute? Parse(string[] args)
     {
@@ -8,13 +8,13 @@ internal record TransportRoute(Transport Transport, int Number, Direction Direct
         {
             return null;
         }
-        
+
         Transport? transport = args[0] switch
         {
-            "/bus"   => Transport.Bus,
-            "/tram"  => Transport.Tram,
-            "/troll" => Transport.Trolleybus,
-            _        => null
+            "/bus" or "/b"    => Transport.Bus,
+            "/tram" or "/t"   => Transport.Tram,
+            "/troll" or "/tr" => Transport.Trolleybus,
+            _                 => null
         };
 
         if (int.TryParse(args[1], out int number) == false)
@@ -22,12 +22,19 @@ internal record TransportRoute(Transport Transport, int Number, Direction Direct
             return null;
         }
 
-        Direction direction = args.Length >= 3 ? args[2] switch
+        if (number <= 0)
         {
-            "0" or "d" or "direct" => Direction.Direct,
-            "1" or "r" or "return" => Direction.Return,
-            _                      => Direction.Both
-        } : Direction.Both;
+            return null;
+        }
+
+        Direction direction = args.Length >= 3
+            ? args[2] switch
+            {
+                "1" or "d" or "direct" => Direction.Direct,
+                "2" or "r" or "return" => Direction.Return,
+                _                      => Direction.Both
+            }
+            : Direction.Both;
 
         return transport is null
             ? null
