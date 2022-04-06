@@ -11,9 +11,9 @@ public record TransportRoute(Transport Transport, int Number, Direction Directio
 
         Transport? transport = args[0] switch
         {
-            "/bus" or "/b"    => Transport.Bus,
-            "/tram" or "/t"   => Transport.Tram,
-            "/troll" or "/tr" => Transport.Trolleybus,
+            "bus" or "b"    => Transport.Bus,
+            "tram" or "t"   => Transport.Tram,
+            "troll" or "tr" => Transport.Trolleybus,
             _                 => null
         };
 
