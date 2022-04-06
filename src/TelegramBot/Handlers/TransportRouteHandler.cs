@@ -7,7 +7,8 @@ namespace WhereIsTheBus.TelegramBot.Handlers;
 
 internal class TransportRouteHandler : IRequestHandler<TransportRouteQuery>
 {
-    private const int AverageMessageLength = 200;
+    private const int AverageMessageLength = 1500;
+
     private readonly IScheduleClient _scheduleClient;
     private readonly ITelegramBotClient _telegramClient;
     private readonly ILogger<TransportRouteHandler> _logger;
@@ -30,19 +31,27 @@ internal class TransportRouteHandler : IRequestHandler<TransportRouteQuery>
         }
 
         IEnumerable<TransportStop> stops = await _scheduleClient.StopsAsync(request.Value);
-        string message = GenerateMessage(from: stops);
-        await _telegramClient.SendTextMessageAsync(
-            request.Message.Chat.Id, message,
-            ParseMode.Markdown,
-            cancellationToken: cancellationToken);
+        string message = GenerateMessageFrom(request.Value, stops);
+        await SendTextMessageAsync(request, message, cancellationToken);
         return Unit.Value;
     }
 
-    private string GenerateMessage(IEnumerable<TransportStop> from)
+    private string GenerateMessageFrom(TransportRoute route, IEnumerable<TransportStop> stops)
     {
+        if (stops.Any() == false)
+        {
+            return $"*Мы не можем найти информацию о вашем маршруте: {VerboseTransport(route)}.\n" +
+                   $"Проверьте ваши данные или попробуйте позже*";
+        }
+        
         StringBuilder sb = new(AverageMessageLength);
 
-        foreach ((int _, string name, var direction, int timeToArrive) in from)
+        sb.Append(GenerateRouteMessage(from: route));
+
+        stops = stops.Distinct();
+        StrictDirection previousDirection = stops.First().Direction;
+        
+        foreach ((int _, string name, var direction, int timeToArrive) in stops)
         {
             string directionCharacter = direction switch
             {
@@ -52,9 +61,50 @@ internal class TransportRouteHandler : IRequestHandler<TransportRouteQuery>
                     nameof(direction), "Direction can only be direct and return")
             };
 
+            if (previousDirection != direction)
+            {
+                sb.Append("\n\n");
+            }
+            
             sb.Append($"{directionCharacter} *{name}*: _{timeToArrive} мин._").AppendLine();
+            previousDirection = direction;
         }
 
         return sb.ToString();
     }
+
+    private string GenerateRouteMessage(TransportRoute from)
+    {
+        string verboseTransport = VerboseTransport(from);
+        string verboseDirection = VerboseDirection(from.Direction);
+        return $"*Выбран {verboseTransport}. {verboseDirection}.* \n\n";
+    }
+
+    private static string VerboseTransport(TransportRoute route) =>
+        route.Transport switch
+        {
+            TransportType.Bus        => "🚌 автобус",
+            TransportType.Trolleybus => "🚎 троллейбус",
+            TransportType.Tram       => "🚃 трамвай",
+            TransportType.None or _ => throw new ArgumentOutOfRangeException(
+                nameof(route), "Transport type should be defined")
+        } + $" №{route.Number}";
+
+    private static string VerboseDirection(Direction direction) =>
+        direction switch
+        {
+            Direction.Direct => "Прямое напрвление",
+            Direction.Return => "Обратное напрвление",
+            Direction.Both   => "Все направления",
+            Direction.None or _ => throw new ArgumentOutOfRangeException(
+                nameof(direction), "Direction type should be defined")
+        };
+
+    private Task<Message> SendTextMessageAsync(FromMessageQuery query,
+                                               string message,
+                                               CancellationToken cancellationToken) =>
+        _telegramClient.SendTextMessageAsync(
+            query.Message.Chat.Id, message,
+            ParseMode.Markdown,
+            cancellationToken: cancellationToken);
 }
