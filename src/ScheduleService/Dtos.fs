@@ -1,37 +1,56 @@
 module WhereIsTheBus.ScheduleService.Dtos
 
 open System
-open WhereIsTheBus.ScheduleService.Domain
+open WhereIsTheBus.Domain.Enums
+open WhereIsTheBus.ScheduleService.InternalDomain
 
-type TransportDto =
-    | Bus = 0
-    | Trolleybus = 1
-    | Tram = 2
+type SharedDirection = WhereIsTheBus.Domain.Enums.Direction
 
-type DirectionDto =
-    | Direct = 0
-    | Return = 1
+type DomainTransportStop = WhereIsTheBus.Domain.Records.TransportStop
 
-type RouteDto =
-    { Transport: TransportDto
-      Number: int
-      Direction: DirectionDto }
+type TransportRouteDto = {
+    Transport: TransportType
+    Number: int
+    Direction: SharedDirection
+}
 
-let toDomainTransport dto =
-    match dto with
-    | TransportDto.Bus -> Transport.Bus
-    | TransportDto.Trolleybus -> Transport.Trolleybus
-    | TransportDto.Tram -> Transport.Tram
-    | _ -> ArgumentOutOfRangeException() |> raise
+type TransportStopDto = {
+    Id: int
+    Name: string
+    Direction: StrictDirection
+    TimeToArrive: int
+}
 
-let toDomainDirection dto =
-    match dto with
-    | DirectionDto.Direct -> Direction.Direct
-    | DirectionDto.Return -> Direction.Return
-    | _ -> ArgumentOutOfRangeException() |> raise
+let private toInternalTransport transportType =
+    match transportType with
+    | TransportType.Bus -> Transport.Bus
+    | TransportType.Tram -> Transport.Tram
+    | TransportType.Trolleybus -> Transport.Trolleybus
+    | _ -> ArgumentOutOfRangeException(nameof transportType) |> raise
+    
+let private toInternalDirection direction =
+    match direction with
+    | SharedDirection.Direct -> Direction.Direct
+    | SharedDirection.Return -> Direction.Return
+    | SharedDirection.Both -> Direction.Both
+    | _ -> ArgumentOutOfRangeException(nameof direction) |> raise
 
-type RouteDto with
-    member this.Domain() : Route =
-        { Transport = this.Transport |> toDomainTransport
+let private toDomainDirection direction =
+    match direction with
+    | Direction.Direct -> SharedDirection.Direct
+    | Direction.Return -> SharedDirection.Return
+    | Direction.Both -> SharedDirection.Both
+
+let toDto (stop: TransportStop) =
+    {
+        Id = stop.Id
+        Name = stop.Name
+        Direction = (toDomainDirection stop.Direction).AsStrictDirection()
+        TimeToArrive = stop.TimeToArrive
+    }
+
+type TransportRouteDto with
+    member this.Domain() : TransportRoute =
+        { Transport = this.Transport |> toInternalTransport
           Number = this.Number
-          Direction = this.Direction |> toDomainDirection }
+          Direction = this.Direction |> toInternalDirection }

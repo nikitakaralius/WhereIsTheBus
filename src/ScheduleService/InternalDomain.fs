@@ -1,4 +1,4 @@
-module WhereIsTheBus.ScheduleService.Domain
+module WhereIsTheBus.ScheduleService.InternalDomain
 
 type Transport =
     | Bus
@@ -8,15 +8,17 @@ type Transport =
 type Direction =
     | Direct
     | Return
+    | Both
 
 type Arrival = { StopId: int; TimeToArrive: int }
 
-type Stop =
+type TransportStop =
     { Id: int
       Name: string
+      Direction: Direction
       TimeToArrive: int }
 
-type Route =
+type TransportRoute =
     { Transport: Transport
       Number: int
       Direction: Direction }

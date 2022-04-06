@@ -1,12 +1,12 @@
 using System.Text;
 using Telegram.Bot.Types.Enums;
-using WhereIsTheBus.TelegramBot.Queries;
 
 namespace WhereIsTheBus.TelegramBot.Handlers;
 
-internal class TransportRouteHandler : IRequestHandler<TransportRouteQuery>
+internal sealed class TransportRouteHandler : IRequestHandler<TransportRouteQuery>
 {
-    private const int AverageMessageLength = 200;
+    private const int AverageMessageLength = 1200;
+
     private readonly IScheduleClient _scheduleClient;
     private readonly ITelegramBotClient _telegramClient;
     private readonly ILogger<TransportRouteHandler> _logger;
@@ -28,31 +28,86 @@ internal class TransportRouteHandler : IRequestHandler<TransportRouteQuery>
             return Unit.Value;
         }
 
-        IEnumerable<Stop> stops = await _scheduleClient.StopsAsync(request.Value);
-        string message = GenerateMessage(from: stops, request.Value.Direction);
-        await _telegramClient.SendTextMessageAsync(
-            request.Message.Chat.Id, message,
-            ParseMode.Markdown,
-            cancellationToken: cancellationToken);
+        IEnumerable<TransportStop> stops = await _scheduleClient.StopsAsync(request.Value);
+        string message = GenerateMessageFrom(request.Value, stops);
+        await SendTextMessageAsync(request, message, cancellationToken);
         return Unit.Value;
     }
 
-    private string GenerateMessage(IEnumerable<Stop> from, Direction direction)
+    private string GenerateMessageFrom(TransportRoute route, IEnumerable<TransportStop> stops)
     {
-        StringBuilder sb = new(AverageMessageLength);
-
-        string directionCharacter = direction switch
-        {
-            Direction.Direct => "⬇️",
-            Direction.Return => "⬆️",
-            _ => throw new ArgumentOutOfRangeException(nameof(direction),"Direction can only be direct and return")
-        };
+        IEnumerable<TransportStop> transportStops = stops as TransportStop[] ?? stops.ToArray();
         
-        foreach ((int _, string name, int timeToArrive) in from)
+        if (transportStops.Any() == false)
         {
-            sb.Append($"{directionCharacter} *{name}*: _{timeToArrive} мин._").AppendLine();
+            return $"*Мы не можем найти информацию о вашем маршруте: {VerboseTransport(route)}.\n" +
+                   "Проверьте ваши данные или попробуйте позже*";
         }
         
+        StringBuilder sb = new(GenerateRouteMessage(from: route), AverageMessageLength);
+
+        var previousDirection = transportStops.First().Direction;
+        
+        foreach ((int _, string name, var direction, int timeToArrive) in transportStops.Distinct())
+        {
+            string directionCharacter = direction switch
+            {
+                StrictDirection.Direct => "⬇️",
+                StrictDirection.Return => "⬆️",
+                StrictDirection.None or _ => throw new ArgumentOutOfRangeException(
+                    nameof(direction), "Direction can only be direct and return")
+            };
+
+            if (previousDirection != direction)
+            {
+                sb.Append("\n\n");
+            }
+
+            sb.Append($"{directionCharacter} *{name}*: _{timeToArrive} мин._\n");
+            previousDirection = direction;
+        }
+
         return sb.ToString();
+    }
+
+    private string GenerateRouteMessage(TransportRoute from)
+    {
+        string verboseTransport = VerboseTransport(from);
+        string verboseDirection = VerboseDirection(from.Direction);
+        return $"*Выбран {verboseTransport}. {verboseDirection}.* \n\n";
+    }
+
+    private static string VerboseTransport(TransportRoute route)
+    {
+        return route.Transport switch
+        {
+            TransportType.Bus        => "🚌 автобус",
+            TransportType.Trolleybus => "🚎 троллейбус",
+            TransportType.Tram       => "🚃 трамвай",
+            TransportType.None or _ => throw new ArgumentOutOfRangeException(
+                nameof(route), "Transport type should be defined")
+        } + $" №{route.Number}";
+    }
+
+    private static string VerboseDirection(Direction direction)
+    {
+        return direction switch
+        {
+            Direction.Direct => "Прямое напрвление",
+            Direction.Return => "Обратное напрвление",
+            Direction.Both   => "Все направления",
+            Direction.None or _ => throw new ArgumentOutOfRangeException(
+                nameof(direction), "Direction type should be defined")
+        };
+    }
+
+    private Task<Message> SendTextMessageAsync(FromMessageQuery query,
+                                               string message,
+                                               CancellationToken cancellationToken)
+    {
+        return _telegramClient.SendTextMessageAsync(
+            query.Message.Chat.Id, message,
+            ParseMode.Markdown,
+            cancellationToken: cancellationToken);
     }
 }

@@ -1,13 +1,15 @@
-namespace WhereIsTheBus.TelegramBot.Telegram;
+using WhereIsTheBus.TelegramBot.Telegram.RequestRouter;
 
-internal class HandleUpdateService : IHandleUpdateService
+namespace WhereIsTheBus.TelegramBot.Telegram.Updates;
+
+internal sealed class HandleUpdateService : IHandleUpdateService
 {
     private readonly IMediator _mediator;
-    private readonly ITelegramRouter _router;
+    private readonly ITelegramRequestRouter _router;
     private readonly ILogger<HandleUpdateService> _logger;
 
     public HandleUpdateService(IMediator mediator, 
-                               ITelegramRouter router,
+                               ITelegramRequestRouter router,
                                ILogger<HandleUpdateService> logger)
     {
         _mediator = mediator;
@@ -22,12 +24,7 @@ internal class HandleUpdateService : IHandleUpdateService
             return;
         }
 
-        var query = _router.QueryFrom(update.Message!);
-
-        if (query is null)
-        {
-            return;
-        }
+        var query = _router.RequestFrom(update.Message!);
 
         try
         {

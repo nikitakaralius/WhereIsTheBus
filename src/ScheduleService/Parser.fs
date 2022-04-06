@@ -1,16 +1,16 @@
-module WhereIsTheBus.ScheduleService.Parser
+module internal WhereIsTheBus.ScheduleService.Parser
 
 open System.Text.RegularExpressions
 open System.Threading.Tasks
 open FSharp.Data
 open System.Linq
 open WhereIsTheBus.ScheduleService.Providers
-open WhereIsTheBus.ScheduleService.Domain
+open WhereIsTheBus.ScheduleService.InternalDomain
 open WhereIsTheBus.ScheduleService.RouteUrlBuilder
 
-let private transportStopsRegex = Regex "(?<='\\[)(.*)(?=\\]')"
+let private transportStopsRegex = Regex("(?<='\\[)(.*)(?=\\]')", RegexOptions.Compiled)
 
-let private arrivalsRegex = Regex "(?<=<small class=grey>)(.*)(?=</small>)"
+let private arrivalsRegex = Regex("(?<=<small class=grey>)(.*)(?=</small>)", RegexOptions.Compiled)
 
 let private parseArrivals (queryContent: HtmlDocument) =
     queryContent.ToString().Split('\n')
@@ -22,7 +22,7 @@ let private parseArrivals (queryContent: HtmlDocument) =
         TimeToArrive = (if y |> isEmpty then 0 else y |> int)
     })
 
-let private parseStops (table: HtmlNode) =
+let private parseStops direction (table: HtmlNode) =
     table.Descendants "a"
     |> Seq.choose
         (fun x ->
@@ -31,9 +31,10 @@ let private parseStops (table: HtmlNode) =
                 Id = a.Value() |> withDigitsOnly |> int
                 Name = x.InnerText()
                 TimeToArrive = 0
+                Direction = direction
             }))
 
-let private applyArrivalToStop (stop: Stop) (arrival: Arrival) = { stop with TimeToArrive = arrival.TimeToArrive }
+let private applyArrivalToStop (stop: TransportStop) (arrival: Arrival) = { stop with TimeToArrive = arrival.TimeToArrive }
 
 let private arrivalId arrival = arrival.StopId
 
@@ -48,18 +49,25 @@ let asyncArrivals url =
 let directRoute url =
     task {
         let! document = RouteStopsProvider.AsyncLoad url
-        return document.Tables.Table8.Html |> parseStops
+        return document.Tables.Table8.Html |> parseStops Direction.Direct 
     }
 
 let returnRoute url =
     task {
         let! document = RouteStopsProvider.AsyncLoad url
-        return document.Tables.Table7.Html |> parseStops
+        return document.Tables.Table7.Html |> parseStops Direction.Return
     }
 
-let mergeWith (arrivals: seq<Arrival>) (stops: seq<Stop>) = stops.Join(arrivals, stopId, arrivalId, applyArrivalToStop)
+let bothRoutes url =
+    task {
+        let! directRoute = directRoute url
+        let! returnRoute = returnRoute url
+        return directRoute |> Seq.append returnRoute
+    }
 
-let asyncScheduleOf (routeStops: string -> Task<seq<Stop>>) stopsUrl arrivalsUrl =
+let mergeWith (arrivals: seq<Arrival>) (stops: seq<TransportStop>) = stops.Join(arrivals, stopId, arrivalId, applyArrivalToStop)
+
+let asyncScheduleOf (routeStops: string -> Task<seq<TransportStop>>) stopsUrl arrivalsUrl =
     task {
         let! arrivals = asyncArrivals arrivalsUrl
         let! stops = routeStops stopsUrl
@@ -70,5 +78,6 @@ let private direction route =
     match route.Direction with
     | Direct -> directRoute
     | Return -> returnRoute
+    | Both   -> bothRoutes
 
 let schedule route = asyncScheduleOf (route |> direction) (route |> stopsUrl) (route |> arrivalsUrl)

@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Domain.fs" />
+    <Compile Include="InternalDomain.fs" />
     <Compile Include="Dtos.fs" />
     <Compile Include="Providers.fs" />
     <Compile Include="HelperFunctions.fs" />
@@ -20,8 +20,11 @@
 
   <ItemGroup>
     <PackageReference Include="FSharp.Data" Version="4.2.7" />
-    <PackageReference Include="FSharp.SystemTextJson" Version="0.17.4" />
     <PackageReference Include="UriBuilder.Fluent" Version="1.5.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>

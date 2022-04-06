@@ -1,6 +1,6 @@
-namespace WhereIsTheBus.TelegramBot.Configuration;
+namespace WhereIsTheBus.TelegramBot.Extensions;
 
-public static class ConfigurationExtensions
+internal static class ConfigurationExtensions
 {
     public static string ScheduleService(this IConfiguration configuration) => 
         configuration["ScheduleService"];

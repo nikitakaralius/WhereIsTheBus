@@ -1,28 +1,26 @@
 using System.Reflection;
-using WhereIsTheBus.TelegramBot.Attributes;
-using WhereIsTheBus.TelegramBot.Queries;
 
-namespace WhereIsTheBus.TelegramBot.Telegram;
+namespace WhereIsTheBus.TelegramBot.Telegram.RequestRouter;
 
-internal class TelegramRouter : ITelegramRouter
+internal sealed class TelegramRequestRouter : ITelegramRequestRouter
 {
     private static readonly IEnumerable<Type> BaseTypes = new[]
     {
         typeof(FromMessageQuery)
     };
     
-    public FromMessageQuery? QueryFrom(Message message)
+    public IRequest RequestFrom(Message message)
     {
         if (message.Text is null)
         {
-            return null;
+            return new UnknownQuery(message);
         }
         
         var matchingQuery = MatchingQuery(message.Text.Split());
 
         if (matchingQuery is null)
         {
-            return null;
+            return new UnknownQuery(message);
         }
         
         var constructor = matchingQuery.GetConstructor(

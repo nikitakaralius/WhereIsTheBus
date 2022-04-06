@@ -1,6 +1,8 @@
+using WhereIsTheBus.TelegramBot.Extensions;
+
 namespace WhereIsTheBus.TelegramBot.Services;
 
-internal class HttpScheduleClient : IScheduleClient
+internal sealed class HttpScheduleClient : IScheduleClient
 {
     private readonly HttpClient _httpClient;
     private readonly IConfiguration _configuration;
@@ -15,18 +17,18 @@ internal class HttpScheduleClient : IScheduleClient
         _logger = logger;
     }
 
-    public async Task<IEnumerable<Stop>> StopsAsync(TransportRoute route)
+    public async Task<IEnumerable<TransportStop>> StopsAsync(TransportRoute route)
     {
         var response = await _httpClient.PostAsJsonAsync(_configuration.ScheduleService(), route);
 
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation("Schedule Service Request is OK");
-            return await response.Content.ReadFromJsonAsync<IEnumerable<Stop>>()
-                ?? Array.Empty<Stop>();
+            return await response.Content.ReadFromJsonAsync<IEnumerable<TransportStop>>()
+                ?? Array.Empty<TransportStop>();
         }
         
         _logger.LogInformation("Schedule Service Request is NOT OK");
-        return Array.Empty<Stop>();
+        return Array.Empty<TransportStop>();
     }
 }

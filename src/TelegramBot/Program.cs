@@ -1,4 +1,6 @@
-﻿const string clientName = "tgwebhook";
+﻿using WhereIsTheBus.TelegramBot.Extensions;
+
+const string clientName = "tgwebhook";
 
 var builder = WebApplication.CreateBuilder(args);
 var botConfiguration = builder.Configuration.OfBot();

@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-
 namespace WhereIsTheBus.TelegramBot.Controllers;
 
 public class WebhookController : ControllerBase
