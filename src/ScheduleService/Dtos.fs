@@ -1,37 +1,33 @@
-module WhereIsTheBus.ScheduleService.Dtos
+module internal WhereIsTheBus.ScheduleService.Dtos
 
 open System
-open WhereIsTheBus.ScheduleService.Domain
+open WhereIsTheBus.Domain.Enums
+open WhereIsTheBus.ScheduleService.InternalDomain
 
-type TransportDto =
-    | Bus = 0
-    | Trolleybus = 1
-    | Tram = 2
+type SharedDirection = WhereIsTheBus.Domain.Enums.Direction
 
-type DirectionDto =
-    | Direct = 0
-    | Return = 1
+type RouteDto = {
+    Transport: TransportType
+    Number: int
+    Direction: SharedDirection
+}
 
-type RouteDto =
-    { Transport: TransportDto
-      Number: int
-      Direction: DirectionDto }
-
-let toDomainTransport dto =
-    match dto with
-    | TransportDto.Bus -> Transport.Bus
-    | TransportDto.Trolleybus -> Transport.Trolleybus
-    | TransportDto.Tram -> Transport.Tram
-    | _ -> ArgumentOutOfRangeException() |> raise
-
-let toDomainDirection dto =
-    match dto with
-    | DirectionDto.Direct -> Direction.Direct
-    | DirectionDto.Return -> Direction.Return
-    | _ -> ArgumentOutOfRangeException() |> raise
+let private toInternalTransport transportType =
+    match transportType with
+    | TransportType.Bus -> Transport.Bus
+    | TransportType.Tram -> Transport.Tram
+    | TransportType.Trolleybus -> Transport.Trolleybus
+    | _ -> ArgumentOutOfRangeException(nameof transportType) |> raise
+    
+let private toInternalDirection direction =
+    match direction with
+    | SharedDirection.Direct -> Direction.Direct
+    | SharedDirection.Return -> Direction.Return
+    | SharedDirection.Both -> Direction.Both
+    | _ -> ArgumentOutOfRangeException(nameof direction) |> raise
 
 type RouteDto with
-    member this.Domain() : Route =
-        { Transport = this.Transport |> toDomainTransport
+    member this.Domain() : TransportRoute =
+        { Transport = this.Transport |> toInternalTransport
           Number = this.Number
-          Direction = this.Direction |> toDomainDirection }
+          Direction = this.Direction |> toInternalDirection }

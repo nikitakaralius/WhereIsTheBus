@@ -1,6 +1,6 @@
 namespace WhereIsTheBus.Domain.Enums;
 
-public enum Transport
+public enum TransportType
 {
     None = 0,
     Bus = 1,

@@ -1,11 +1,11 @@
-module WhereIsTheBus.ScheduleService.Parser
+module internal WhereIsTheBus.ScheduleService.Parser
 
 open System.Text.RegularExpressions
 open System.Threading.Tasks
 open FSharp.Data
 open System.Linq
 open WhereIsTheBus.ScheduleService.Providers
-open WhereIsTheBus.ScheduleService.Domain
+open WhereIsTheBus.ScheduleService.InternalDomain
 open WhereIsTheBus.ScheduleService.RouteUrlBuilder
 
 let private transportStopsRegex = Regex "(?<='\\[)(.*)(?=\\]')"
@@ -33,7 +33,7 @@ let private parseStops (table: HtmlNode) =
                 TimeToArrive = 0
             }))
 
-let private applyArrivalToStop (stop: Stop) (arrival: Arrival) = { stop with TimeToArrive = arrival.TimeToArrive }
+let private applyArrivalToStop (stop: TransportStop) (arrival: Arrival) = { stop with TimeToArrive = arrival.TimeToArrive }
 
 let private arrivalId arrival = arrival.StopId
 
@@ -57,9 +57,16 @@ let returnRoute url =
         return document.Tables.Table7.Html |> parseStops
     }
 
-let mergeWith (arrivals: seq<Arrival>) (stops: seq<Stop>) = stops.Join(arrivals, stopId, arrivalId, applyArrivalToStop)
+let bothRoutes url =
+    task {
+        let! directRoute = directRoute url
+        let! returnRoute = returnRoute url
+        return directRoute |> Seq.append returnRoute
+    }
 
-let asyncScheduleOf (routeStops: string -> Task<seq<Stop>>) stopsUrl arrivalsUrl =
+let mergeWith (arrivals: seq<Arrival>) (stops: seq<TransportStop>) = stops.Join(arrivals, stopId, arrivalId, applyArrivalToStop)
+
+let asyncScheduleOf (routeStops: string -> Task<seq<TransportStop>>) stopsUrl arrivalsUrl =
     task {
         let! arrivals = asyncArrivals arrivalsUrl
         let! stops = routeStops stopsUrl
@@ -70,5 +77,6 @@ let private direction route =
     match route.Direction with
     | Direct -> directRoute
     | Return -> returnRoute
+    | Both   -> bothRoutes
 
 let schedule route = asyncScheduleOf (route |> direction) (route |> stopsUrl) (route |> arrivalsUrl)

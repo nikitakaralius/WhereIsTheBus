@@ -6,7 +6,7 @@ open WhereIsTheBus.ScheduleService.CachedParser
 
 [<ApiController>]
 [<Route("/api/[controller]")>]
-type TransportController() =
+type internal TransportController() =
     inherit ControllerBase()
 
     [<HttpPost>]

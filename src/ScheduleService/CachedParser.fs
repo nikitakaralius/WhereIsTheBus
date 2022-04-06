@@ -1,13 +1,13 @@
-module WhereIsTheBus.ScheduleService.CachedParser
+module internal WhereIsTheBus.ScheduleService.CachedParser
 
 open System.Collections.Generic
 open System.Linq
-open Domain
+open InternalDomain
 open Parser
 open RouteUrlBuilder
 
 
-let private stops = Dictionary<Route, IEnumerable<Stop>>()
+let private stops = Dictionary<TransportRoute, IEnumerable<TransportStop>>()
 
 let cachedSchedule route =
     match stops.TryGetValue route with
