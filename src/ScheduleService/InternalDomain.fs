@@ -1,4 +1,4 @@
-module internal WhereIsTheBus.ScheduleService.InternalDomain
+module WhereIsTheBus.ScheduleService.InternalDomain
 
 type Transport =
     | Bus

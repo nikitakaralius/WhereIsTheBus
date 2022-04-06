@@ -7,7 +7,7 @@ open System.Linq
 
 [<ApiController>]
 [<Route("/api/[controller]")>]
-type internal TransportController() =
+type TransportController() =
     inherit ControllerBase()
 
     [<HttpPost>]

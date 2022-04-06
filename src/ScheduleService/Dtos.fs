@@ -1,4 +1,4 @@
-module internal WhereIsTheBus.ScheduleService.Dtos
+module WhereIsTheBus.ScheduleService.Dtos
 
 open System
 open WhereIsTheBus.Domain.Enums

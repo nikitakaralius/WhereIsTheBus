@@ -14,7 +14,7 @@ public record TransportRoute(TransportType Transport, int Number, Direction Dire
             "bus" or "b"    => TransportType.Bus,
             "tram" or "t"   => TransportType.Tram,
             "troll" or "tr" => TransportType.Trolleybus,
-            _                 => null
+            _               => null
         };
 
         if (int.TryParse(args[1], out int number) == false)
@@ -32,7 +32,7 @@ public record TransportRoute(TransportType Transport, int Number, Direction Dire
             {
                 "1" or "d" or "direct" => Direction.Direct,
                 "2" or "r" or "return" => Direction.Return,
-                _                      => Direction.Both
+                "b" or _               => Direction.Both
             }
             : Direction.Both;
 
