@@ -2,7 +2,7 @@ using Telegram.Bot.Types.Enums;
 
 namespace WhereIsTheBus.TelegramBot.Handlers;
 
-internal sealed class UnknownQueryHandler : IRequestHandler<UnknownQuery>
+public sealed class UnknownQueryHandler : IRequestHandler<UnknownQuery>
 {
     private readonly ITelegramBotClient _client;
 

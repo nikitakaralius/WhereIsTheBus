@@ -1,13 +1,13 @@
 namespace WhereIsTheBus.TelegramBot.Queries;
 
-internal abstract class FromUpdateQuery<TParam> : FromUpdateQuery
+public abstract class FromUpdateQuery<TParam> : FromUpdateQuery
 {
     protected FromUpdateQuery(UpdateEvent update) : base(update) { }
     
     public abstract TParam? Value { get; }
 }
 
-internal abstract class FromUpdateQuery : IRequest
+public abstract class FromUpdateQuery : IRequest
 {
     protected FromUpdateQuery(UpdateEvent update)
     {

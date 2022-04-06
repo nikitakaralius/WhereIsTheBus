@@ -1,6 +1,6 @@
 namespace WhereIsTheBus.TelegramBot.Telegram.Updates;
 
-internal sealed record UpdateEvent(ChatId ChatId, string UserMessage)
+public sealed record UpdateEvent(ChatId ChatId, string UserMessage)
 {
     public static UpdateEvent FromMessage(Message message)
     {
