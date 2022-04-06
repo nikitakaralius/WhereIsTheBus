@@ -24,11 +24,6 @@ internal sealed class HandleUpdateService : IHandleUpdateService
 
         var query = _router.RequestFrom(update.Message!);
 
-        if (query is null)
-        {
-            return;
-        }
-
         try
         {
             await _mediator.Send(query);

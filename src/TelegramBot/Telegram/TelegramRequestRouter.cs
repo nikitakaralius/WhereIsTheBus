@@ -11,18 +11,18 @@ internal sealed class TelegramRequestRouter : ITelegramRequestRouter
         typeof(FromMessageQuery)
     };
     
-    public IRequest? RequestFrom(Message message)
+    public IRequest RequestFrom(Message message)
     {
         if (message.Text is null)
         {
-            return null;
+            return new UnknownQuery(message);
         }
         
         var matchingQuery = MatchingQuery(message.Text.Split());
 
         if (matchingQuery is null)
         {
-            return null;
+            return new UnknownQuery(message);
         }
         
         var constructor = matchingQuery.GetConstructor(

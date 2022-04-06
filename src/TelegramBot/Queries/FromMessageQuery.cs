@@ -7,7 +7,7 @@ internal abstract class FromMessageQuery<TParam> : FromMessageQuery
     public abstract TParam? Value { get; }
 }
 
-internal abstract class FromMessageQuery : IRequest
+public abstract class FromMessageQuery : IRequest
 {
     protected FromMessageQuery(Message message)
     {
