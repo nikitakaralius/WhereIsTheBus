@@ -1,34 +1,20 @@
-namespace ScheduleService
+module WhereIsTheBus.ScheduleService.Program
 
 #nowarn "20"
 
-open System.Text.Json.Serialization
 open Microsoft.AspNetCore.Builder
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
 
-module Program =
-    let exitCode = 0
+let exitCode = 0
 
-    [<EntryPoint>]
-    let main args =
+let builder = WebApplication.CreateBuilder()
 
-        let builder = WebApplication.CreateBuilder(args)
+builder.Services.AddControllers()
 
-        builder.Services
-            .AddControllers()
-            .AddJsonOptions(fun options -> options.JsonSerializerOptions.Converters.Add(
-                JsonFSharpConverter(
-                    unionTagCaseInsensitive = true,
-                    unionEncoding = JsonUnionEncoding.UnwrapFieldlessTags)))
-            
-        let app = builder.Build()
+let app = builder.Build()
 
-        app.UseHttpsRedirection()
+app.MapControllers()
+app.Run()
 
-        app.UseAuthorization()
-        app.MapControllers()
-
-        app.Run()
-        
-        exitCode
+exitCode
