@@ -101,12 +101,12 @@ internal sealed class TransportRouteHandler : IRequestHandler<TransportRouteQuer
         };
     }
 
-    private Task<Message> SendTextMessageAsync(FromMessageQuery query,
+    private Task<Message> SendTextMessageAsync(FromUpdateQuery query,
                                                string message,
                                                CancellationToken cancellationToken)
     {
         return _telegramClient.SendTextMessageAsync(
-            query.Message.Chat.Id, message,
+            query.Update.ChatId, message,
             ParseMode.Markdown,
             cancellationToken: cancellationToken);
     }
