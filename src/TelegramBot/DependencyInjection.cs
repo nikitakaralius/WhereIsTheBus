@@ -1,6 +1,6 @@
 namespace WhereIsTheBus.TelegramBot;
 
-public static class DependencyInjection
+internal static class DependencyInjection
 {
     public static IServiceCollection AddTelegramBot(this IServiceCollection services,
                                                  string clientName,
@@ -13,7 +13,7 @@ public static class DependencyInjection
                    httpClient => new TelegramBotClient(botConfiguration.Token, httpClient));
         services.AddHttpClient<IScheduleClient, HttpScheduleClient>();
         services.AddScoped<IHandleUpdateService, HandleUpdateService>();
-        services.AddScoped<ITelegramRouter, TelegramRouter>();
+        services.AddScoped<ITelegramRequestRouter, TelegramRequestRouter>();
         services.AddControllers()
                .AddNewtonsoftJson();
         

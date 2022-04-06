@@ -4,14 +4,14 @@ using WhereIsTheBus.TelegramBot.Queries;
 
 namespace WhereIsTheBus.TelegramBot.Telegram;
 
-internal class TelegramRouter : ITelegramRouter
+internal sealed class TelegramRequestRouter : ITelegramRequestRouter
 {
     private static readonly IEnumerable<Type> BaseTypes = new[]
     {
         typeof(FromMessageQuery)
     };
     
-    public FromMessageQuery? QueryFrom(Message message)
+    public IRequest? RequestFrom(Message message)
     {
         if (message.Text is null)
         {

@@ -1,6 +1,6 @@
 namespace WhereIsTheBus.TelegramBot.Services;
 
-internal class HttpScheduleClient : IScheduleClient
+internal sealed class HttpScheduleClient : IScheduleClient
 {
     private readonly HttpClient _httpClient;
     private readonly IConfiguration _configuration;

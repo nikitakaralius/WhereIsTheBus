@@ -2,7 +2,7 @@ using Telegram.Bot.Types.Enums;
 
 namespace WhereIsTheBus.TelegramBot.Telegram;
 
-public class ConfigureWebhook : IHostedService
+internal sealed class ConfigureWebhook : IHostedService
 {
     private readonly BotConfiguration _configuration;
     private readonly IServiceProvider _services;

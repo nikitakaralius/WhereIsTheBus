@@ -1,6 +1,6 @@
 namespace WhereIsTheBus.TelegramBot.Configuration;
 
-public class BotConfiguration
+internal sealed class BotConfiguration
 {
     public string Token { get; init; } = null!;
 

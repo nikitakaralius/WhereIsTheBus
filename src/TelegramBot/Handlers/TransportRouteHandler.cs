@@ -5,9 +5,9 @@ using WhereIsTheBus.TelegramBot.Queries;
 
 namespace WhereIsTheBus.TelegramBot.Handlers;
 
-internal class TransportRouteHandler : IRequestHandler<TransportRouteQuery>
+internal sealed class TransportRouteHandler : IRequestHandler<TransportRouteQuery>
 {
-    private const int AverageMessageLength = 1500;
+    private const int AverageMessageLength = 1200;
 
     private readonly IScheduleClient _scheduleClient;
     private readonly ITelegramBotClient _telegramClient;
@@ -38,20 +38,19 @@ internal class TransportRouteHandler : IRequestHandler<TransportRouteQuery>
 
     private string GenerateMessageFrom(TransportRoute route, IEnumerable<TransportStop> stops)
     {
-        if (stops.Any() == false)
+        IEnumerable<TransportStop> transportStops = stops as TransportStop[] ?? stops.ToArray();
+        
+        if (transportStops.Any() == false)
         {
             return $"*Мы не можем найти информацию о вашем маршруте: {VerboseTransport(route)}.\n" +
-                   $"Проверьте ваши данные или попробуйте позже*";
+                   "Проверьте ваши данные или попробуйте позже*";
         }
         
-        StringBuilder sb = new(AverageMessageLength);
+        StringBuilder sb = new(GenerateRouteMessage(from: route), AverageMessageLength);
 
-        sb.Append(GenerateRouteMessage(from: route));
-
-        stops = stops.Distinct();
-        StrictDirection previousDirection = stops.First().Direction;
+        var previousDirection = transportStops.First().Direction;
         
-        foreach ((int _, string name, var direction, int timeToArrive) in stops)
+        foreach ((int _, string name, var direction, int timeToArrive) in transportStops.Distinct())
         {
             string directionCharacter = direction switch
             {
@@ -65,8 +64,8 @@ internal class TransportRouteHandler : IRequestHandler<TransportRouteQuery>
             {
                 sb.Append("\n\n");
             }
-            
-            sb.Append($"{directionCharacter} *{name}*: _{timeToArrive} мин._").AppendLine();
+
+            sb.Append($"{directionCharacter} *{name}*: _{timeToArrive} мин._\n");
             previousDirection = direction;
         }
 
@@ -80,8 +79,9 @@ internal class TransportRouteHandler : IRequestHandler<TransportRouteQuery>
         return $"*Выбран {verboseTransport}. {verboseDirection}.* \n\n";
     }
 
-    private static string VerboseTransport(TransportRoute route) =>
-        route.Transport switch
+    private static string VerboseTransport(TransportRoute route)
+    {
+        return route.Transport switch
         {
             TransportType.Bus        => "🚌 автобус",
             TransportType.Trolleybus => "🚎 троллейбус",
@@ -89,9 +89,11 @@ internal class TransportRouteHandler : IRequestHandler<TransportRouteQuery>
             TransportType.None or _ => throw new ArgumentOutOfRangeException(
                 nameof(route), "Transport type should be defined")
         } + $" №{route.Number}";
+    }
 
-    private static string VerboseDirection(Direction direction) =>
-        direction switch
+    private static string VerboseDirection(Direction direction)
+    {
+        return direction switch
         {
             Direction.Direct => "Прямое напрвление",
             Direction.Return => "Обратное напрвление",
@@ -99,12 +101,15 @@ internal class TransportRouteHandler : IRequestHandler<TransportRouteQuery>
             Direction.None or _ => throw new ArgumentOutOfRangeException(
                 nameof(direction), "Direction type should be defined")
         };
+    }
 
     private Task<Message> SendTextMessageAsync(FromMessageQuery query,
                                                string message,
-                                               CancellationToken cancellationToken) =>
-        _telegramClient.SendTextMessageAsync(
+                                               CancellationToken cancellationToken)
+    {
+        return _telegramClient.SendTextMessageAsync(
             query.Message.Chat.Id, message,
             ParseMode.Markdown,
             cancellationToken: cancellationToken);
+    }
 }
