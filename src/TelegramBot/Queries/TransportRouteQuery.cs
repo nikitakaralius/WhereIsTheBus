@@ -1,5 +1,3 @@
-using WhereIsTheBus.TelegramBot.Attributes;
-
 namespace WhereIsTheBus.TelegramBot.Queries;
 
 [TelegramRoutes("/bus", "/tram", "/troll", "/b", "t", "/tr")]

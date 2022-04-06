@@ -1,4 +1,6 @@
-namespace WhereIsTheBus.TelegramBot.Telegram;
+using WhereIsTheBus.TelegramBot.Telegram.RequestRouter;
+
+namespace WhereIsTheBus.TelegramBot.Telegram.Updates;
 
 internal sealed class HandleUpdateService : IHandleUpdateService
 {

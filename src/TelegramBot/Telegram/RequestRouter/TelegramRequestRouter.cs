@@ -1,8 +1,6 @@
 using System.Reflection;
-using WhereIsTheBus.TelegramBot.Attributes;
-using WhereIsTheBus.TelegramBot.Queries;
 
-namespace WhereIsTheBus.TelegramBot.Telegram;
+namespace WhereIsTheBus.TelegramBot.Telegram.RequestRouter;
 
 internal sealed class TelegramRequestRouter : ITelegramRequestRouter
 {

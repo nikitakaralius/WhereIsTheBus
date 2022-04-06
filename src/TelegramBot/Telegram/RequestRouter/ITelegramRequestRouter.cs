@@ -1,4 +1,4 @@
-namespace WhereIsTheBus.TelegramBot.Telegram;
+namespace WhereIsTheBus.TelegramBot.Telegram.RequestRouter;
 
 internal interface ITelegramRequestRouter
 {

@@ -1,4 +1,4 @@
-namespace WhereIsTheBus.TelegramBot.Configuration;
+namespace WhereIsTheBus.TelegramBot.Extensions;
 
 internal static class ConfigurationExtensions
 {

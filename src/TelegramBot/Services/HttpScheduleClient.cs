@@ -1,3 +1,5 @@
+using WhereIsTheBus.TelegramBot.Extensions;
+
 namespace WhereIsTheBus.TelegramBot.Services;
 
 internal sealed class HttpScheduleClient : IScheduleClient

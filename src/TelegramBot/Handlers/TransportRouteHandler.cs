@@ -1,7 +1,5 @@
 using System.Text;
 using Telegram.Bot.Types.Enums;
-using WhereIsTheBus.Domain.Enums;
-using WhereIsTheBus.TelegramBot.Queries;
 
 namespace WhereIsTheBus.TelegramBot.Handlers;
 

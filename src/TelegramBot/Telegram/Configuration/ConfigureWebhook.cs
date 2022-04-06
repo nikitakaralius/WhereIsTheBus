@@ -1,6 +1,7 @@
 using Telegram.Bot.Types.Enums;
+using WhereIsTheBus.TelegramBot.Extensions;
 
-namespace WhereIsTheBus.TelegramBot.Telegram;
+namespace WhereIsTheBus.TelegramBot.Telegram.Configuration;
 
 internal sealed class ConfigureWebhook : IHostedService
 {

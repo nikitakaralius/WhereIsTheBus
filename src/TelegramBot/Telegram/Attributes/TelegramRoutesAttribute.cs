@@ -1,4 +1,4 @@
-namespace WhereIsTheBus.TelegramBot.Attributes;
+namespace WhereIsTheBus.TelegramBot.Telegram.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
 internal sealed class TelegramRoutesAttribute : Attribute

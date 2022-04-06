@@ -1,4 +1,4 @@
-namespace WhereIsTheBus.TelegramBot.Configuration;
+namespace WhereIsTheBus.TelegramBot.Telegram.Configuration;
 
 internal sealed class BotConfiguration
 {
