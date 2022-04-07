@@ -13,23 +13,24 @@ public class TransportQueryHandler : IRequestHandler<TransportQuery>
 
     public async Task<Unit> Handle(TransportQuery request, CancellationToken cancellationToken)
     {
-        InlineKeyboardMarkup keyboard = new(new[]
-        {
-            new[]
-            {
-                InlineKeyboardButton.WithCallbackData("29", "/bus 29"),
-                InlineKeyboardButton.WithCallbackData("Прямое", "/bus 29 d"),
-                InlineKeyboardButton.WithCallbackData("Обратное", "/bus 29 r")
-            },
-            new[]
-            {
-                InlineKeyboardButton.WithCallbackData("28", "/bus 28"),
-                InlineKeyboardButton.WithCallbackData("Прямое", "/bus 28 d"),
-                InlineKeyboardButton.WithCallbackData("Обратное", "/bus 28 r")
-            }
-        });
+        InlineKeyboardMarkup keyboard = new(AllRoutes().Select(RouteButtons));
         await _telegram.SendTextMessageAsync(request.Update.ChatId, "Выберите маршрут", replyMarkup: keyboard,
             cancellationToken: cancellationToken);
         return Unit.Value;
     }
+
+    private InlineKeyboardButton[] RouteButtons(int route) =>
+        new[]
+        {
+            InlineKeyboardButton.WithCallbackData($"{route}", $"/bus {route}"),
+            InlineKeyboardButton.WithCallbackData("Прямое", $"/bus {route} d"),
+            InlineKeyboardButton.WithCallbackData("Обратное", $"/bus {route} r")
+        };
+
+    private int[] AllRoutes() =>
+        new[]
+        {
+            2, 6, 7, 8, 9, 10, 11, 12, 15, 16, 19, 21, 22, 23, 25, 26, 27, 28, 29, 31, 34, 36, 39, 40, 41, 45,
+            49, 50, 52, 53, 56, 68, 71, 73, 79
+        };
 }
