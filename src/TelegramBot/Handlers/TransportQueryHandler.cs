@@ -20,6 +20,12 @@ public class TransportQueryHandler : IRequestHandler<TransportQuery>
                 InlineKeyboardButton.WithCallbackData("29", "/bus 29"),
                 InlineKeyboardButton.WithCallbackData("Прямое", "/bus 29 d"),
                 InlineKeyboardButton.WithCallbackData("Обратное", "/bus 29 r")
+            },
+            new[]
+            {
+                InlineKeyboardButton.WithCallbackData("28", "/bus 28"),
+                InlineKeyboardButton.WithCallbackData("Прямое", "/bus 28 d"),
+                InlineKeyboardButton.WithCallbackData("Обратное", "/bus 28 r")
             }
         });
         await _telegram.SendTextMessageAsync(request.Update.ChatId, "Выберите маршрут", replyMarkup: keyboard,
