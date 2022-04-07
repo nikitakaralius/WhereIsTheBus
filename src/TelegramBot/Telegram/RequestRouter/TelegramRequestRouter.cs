@@ -6,33 +6,28 @@ internal sealed class TelegramRequestRouter : ITelegramRequestRouter
 {
     private static readonly IEnumerable<Type> BaseTypes = new[]
     {
-        typeof(FromMessageQuery)
+        typeof(FromUpdateQuery)
     };
     
-    public IRequest RequestFrom(Message message)
+    public IRequest RequestFrom(UpdateEvent update)
     {
-        if (message.Text is null)
-        {
-            return new UnknownQuery(message);
-        }
-        
-        var matchingQuery = MatchingQuery(message.Text.Split());
+        var matchingQuery = MatchingQuery(update.UserMessage.Split());
 
         if (matchingQuery is null)
         {
-            return new UnknownQuery(message);
+            return new UnknownQuery(update);
         }
         
         var constructor = matchingQuery.GetConstructor(
             BindingFlags.Instance | BindingFlags.Public,
-            new[] {typeof(Message)});
+            new[] {typeof(UpdateEvent)});
 
         if (constructor is null)
         {
             throw new InvalidOperationException("Found a constructor that does not define a Message argument");
         }
 
-        return (FromMessageQuery) constructor.Invoke(new object?[] {message});
+        return (FromUpdateQuery) constructor.Invoke(new object?[] {update});
     }
 
     private static Type? MatchingQuery(string[] args) =>

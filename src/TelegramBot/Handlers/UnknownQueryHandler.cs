@@ -2,7 +2,7 @@ using Telegram.Bot.Types.Enums;
 
 namespace WhereIsTheBus.TelegramBot.Handlers;
 
-public class UnknownQueryHandler : IRequestHandler<UnknownQuery>
+public sealed class UnknownQueryHandler : IRequestHandler<UnknownQuery>
 {
     private readonly ITelegramBotClient _client;
 
@@ -14,7 +14,7 @@ public class UnknownQueryHandler : IRequestHandler<UnknownQuery>
     public async Task<Unit> Handle(UnknownQuery request, CancellationToken cancellationToken)
     {
         const string message = "*Извините, мы не знаем такую команду*";
-        await _client.SendTextMessageAsync(request.Message.Chat.Id,
+        await _client.SendTextMessageAsync(request.Update.ChatId,
                                            message, ParseMode.Markdown,
                                            cancellationToken: cancellationToken);
         return Unit.Value;

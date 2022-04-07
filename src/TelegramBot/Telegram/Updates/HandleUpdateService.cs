@@ -1,3 +1,4 @@
+using Telegram.Bot.Types.Enums;
 using WhereIsTheBus.TelegramBot.Telegram.RequestRouter;
 
 namespace WhereIsTheBus.TelegramBot.Telegram.Updates;
@@ -19,12 +20,19 @@ internal sealed class HandleUpdateService : IHandleUpdateService
 
     public async Task EchoAsync(Update update)
     {
-        if (update.Message is null)
+        var updateEvent = update.Type switch
+        {
+            UpdateType.Message => UpdateEvent.FromMessage(update.Message!),
+            UpdateType.CallbackQuery => UpdateEvent.FromCallbackQuery(update.CallbackQuery!),
+            _ => null
+        };
+
+        if (updateEvent is null)
         {
             return;
         }
 
-        var query = _router.RequestFrom(update.Message!);
+        var query = _router.RequestFrom(updateEvent);
 
         try
         {
