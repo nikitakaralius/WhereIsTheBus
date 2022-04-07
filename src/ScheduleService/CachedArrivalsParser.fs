@@ -1,11 +1,10 @@
-module internal WhereIsTheBus.ScheduleService.CachedParser
+module internal WhereIsTheBus.ScheduleService.CachedArrivalsParser
 
 open System.Collections.Generic
 open System.Linq
 open InternalDomain
-open Parser
+open ArrivalsParser
 open RouteUrlBuilder
-
 
 let private stops = Dictionary<TransportRoute, IEnumerable<TransportStop>>()
 
