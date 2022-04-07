@@ -2,7 +2,7 @@ namespace WhereIsTheBus.ScheduleService.Controllers
 
 open Microsoft.AspNetCore.Mvc
 open WhereIsTheBus.ScheduleService.Dtos
-open WhereIsTheBus.ScheduleService.CachedParser
+open WhereIsTheBus.ScheduleService.CachedArrivalsParser
 open System.Linq
 
 [<ApiController>]
