@@ -18,7 +18,10 @@ public class StartQueryHandler : IRequestHandler<StartQuery>
             new("Автобусы"),
             new("Троллейбусы"),
             new("Трамваи")
-        });
+        })
+        {
+            ResizeKeyboard = true
+        };
         await _telegram.SendTextMessageAsync(request.Update.ChatId, "Выберите транспорт", replyMarkup: keyboard,
             cancellationToken: cancellationToken);
         return Unit.Value;
