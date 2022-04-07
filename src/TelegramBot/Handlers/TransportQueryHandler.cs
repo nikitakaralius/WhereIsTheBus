@@ -15,13 +15,15 @@ public class TransportQueryHandler : IRequestHandler<TransportQuery>
     {
         InlineKeyboardMarkup keyboard = new(new[]
         {
-            InlineKeyboardButton.WithCallbackData("29", "/bus 29"), 
-            InlineKeyboardButton.WithCallbackData("79", "/bus 79"), 
-            InlineKeyboardButton.WithCallbackData("28", "/bus 28"), 
+            new[]
+            {
+                InlineKeyboardButton.WithCallbackData("29", "/bus 29"),
+                InlineKeyboardButton.WithCallbackData("Прямое", "/bus 29 d"),
+                InlineKeyboardButton.WithCallbackData("Обратное", "/bus 29 r")
+            }
         });
         await _telegram.SendTextMessageAsync(request.Update.ChatId, "Выберите маршрут", replyMarkup: keyboard,
             cancellationToken: cancellationToken);
         return Unit.Value;
     }
-    
 }
