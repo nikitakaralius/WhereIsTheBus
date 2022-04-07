@@ -13,27 +13,41 @@ public class TransportQueryHandler : IRequestHandler<TransportQuery>
 
     public async Task<Unit> Handle(TransportQuery request, CancellationToken cancellationToken)
     {
-        int[] routes = request.Update.UserMessage switch
+        var routes = request.Update.UserMessage switch
         {
-            "Автобусы"    => AllBusRoutes(),
-            "Троллейбусы" => AllTrolleyBusRoutes(),
-            "Трамваи"     => AllTramRoutes(),
+            "Автобусы"    => AllBusRoutes().Select(x => RouteButtons(x, TransportType.Bus)),
+            "Троллейбусы" => AllBusRoutes().Select(x => RouteButtons(x, TransportType.Trolleybus)),
+            "Трамваи"     => AllBusRoutes().Select(x => RouteButtons(x, TransportType.Tram)),
             _ => throw new ArgumentOutOfRangeException(
                 nameof(request), $"This handler is not supposed for {request.Update.UserMessage} request")
         };
-        InlineKeyboardMarkup keyboard = new(routes.Select(RouteButtons));
+        InlineKeyboardMarkup keyboard = new(routes);
         await _telegram.SendTextMessageAsync(request.Update.ChatId, "Выберите маршрут", replyMarkup: keyboard,
                                              cancellationToken: cancellationToken);
         return Unit.Value;
     }
 
-    private InlineKeyboardButton[] RouteButtons(int route) =>
-        new[]
+    private InlineKeyboardButton[] RouteButtons(int route, TransportType transport)
+    {
+        string command = CommandOf(transport);
+        return new[]
         {
-            InlineKeyboardButton.WithCallbackData($"{route}", $"/bus {route}"),
-            InlineKeyboardButton.WithCallbackData("Прямое", $"/bus {route} d"),
-            InlineKeyboardButton.WithCallbackData("Обратное", $"/bus {route} r")
+            InlineKeyboardButton.WithCallbackData($"{route}", $"/{command} {route}"),
+            InlineKeyboardButton.WithCallbackData("Прямое", $"/{command} {route} d"),
+            InlineKeyboardButton.WithCallbackData("Обратное", $"/{command} {route} r")
         };
+    }
+
+    private string CommandOf(TransportType transport)
+    {
+        return transport switch
+        {
+            TransportType.Bus        => "/bus",
+            TransportType.Trolleybus => "/troll",
+            TransportType.Tram       => "/tram",
+            TransportType.None or _  => throw new ArgumentOutOfRangeException(nameof(transport), transport, null)
+        };
+    }
 
     private int[] AllBusRoutes()
     {
