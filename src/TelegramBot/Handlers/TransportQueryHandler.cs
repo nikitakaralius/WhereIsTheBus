@@ -42,9 +42,9 @@ public class TransportQueryHandler : IRequestHandler<TransportQuery>
     {
         return transport switch
         {
-            TransportType.Bus        => "/bus",
-            TransportType.Trolleybus => "/troll",
-            TransportType.Tram       => "/tram",
+            TransportType.Bus        => "bus",
+            TransportType.Trolleybus => "troll",
+            TransportType.Tram       => "tram",
             TransportType.None or _  => throw new ArgumentOutOfRangeException(nameof(transport), transport, null)
         };
     }
