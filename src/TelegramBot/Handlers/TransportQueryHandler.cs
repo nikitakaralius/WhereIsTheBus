@@ -13,16 +13,17 @@ public class TransportQueryHandler : IRequestHandler<TransportQuery>
 
     public async Task<Unit> Handle(TransportQuery request, CancellationToken cancellationToken)
     {
-        int[] routes;
-        if (request.Update.UserMessage == "Автобусы")
-            routes = AllBusRoutes();
-        else if (request.Update.UserMessage == "Троллейбусы")
-            routes = AllTrolleyBusRoutes();
-        else
-            routes = AllTramRoutes();
+        int[] routes = request.Update.UserMessage switch
+        {
+            "Автобусы"    => AllBusRoutes(),
+            "Троллейбусы" => AllTrolleyBusRoutes(),
+            "Трамваи"     => AllTramRoutes(),
+            _ => throw new ArgumentOutOfRangeException(
+                nameof(request), $"This handler is not supposed for {request.Update.UserMessage} request")
+        };
         InlineKeyboardMarkup keyboard = new(routes.Select(RouteButtons));
         await _telegram.SendTextMessageAsync(request.Update.ChatId, "Выберите маршрут", replyMarkup: keyboard,
-            cancellationToken: cancellationToken);
+                                             cancellationToken: cancellationToken);
         return Unit.Value;
     }
 
@@ -34,21 +35,28 @@ public class TransportQueryHandler : IRequestHandler<TransportQuery>
             InlineKeyboardButton.WithCallbackData("Обратное", $"/bus {route} r")
         };
 
-    private int[] AllBusRoutes() =>
-        new[]
+    private int[] AllBusRoutes()
+    {
+        return new[]
         {
-            2, 6, 7, 8, 9, 11, 12, 15, 16, 19, 21, 22, 23, 25, 26, 27, 28, 29, 31, 34, 36, 40, 41, 45, 56, 68, 73, 79
+            2, 6, 7, 8, 9, 11, 12, 15, 16, 19, 21, 22, 23, 25, 26,
+            27, 28, 29, 31, 34, 36, 40, 41, 45, 56, 68, 73, 79
         };
-       
-    private int[] AllTrolleyBusRoutes() =>
-        new[]
+    }
+
+    private int[] AllTrolleyBusRoutes()
+    {
+        return new[]
         {
             1, 2, 4, 6, 7, 9, 10, 14
         };
+    }
 
-    private int[] AllTramRoutes() =>
-        new[]
+    private int[] AllTramRoutes()
+    {
+        return new[]
         {
             1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12
         };
+    }
 }
