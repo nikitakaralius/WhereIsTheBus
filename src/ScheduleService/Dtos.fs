@@ -23,9 +23,9 @@ type TransportStopDto = {
 
 let private toInternalTransport transportType =
     match transportType with
-    | TransportType.Bus -> Transport.Bus
-    | TransportType.Tram -> Transport.Tram
-    | TransportType.Trolleybus -> Transport.Trolleybus
+    | TransportType.Bus -> TransportType.Bus
+    | TransportType.Tram -> TransportType.Tram
+    | TransportType.Trolleybus -> TransportType.Trolleybus
     | _ -> ArgumentOutOfRangeException(nameof transportType) |> raise
     
 let private toInternalDirection direction =
