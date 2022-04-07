@@ -3,17 +3,17 @@ using Telegram.Bot.Types.Enums;
 
 namespace WhereIsTheBus.TelegramBot.Handlers;
 
-public sealed class TransportRouteHandler : IRequestHandler<TransportRouteQuery>
+public sealed class TransportRouteQueryHandler : IRequestHandler<TransportRouteQuery>
 {
     private const int AverageMessageLength = 1200;
 
     private readonly IScheduleClient _scheduleClient;
     private readonly ITelegramBotClient _telegramClient;
-    private readonly ILogger<TransportRouteHandler> _logger;
+    private readonly ILogger<TransportRouteQueryHandler> _logger;
 
-    public TransportRouteHandler(IScheduleClient scheduleClient,
+    public TransportRouteQueryHandler(IScheduleClient scheduleClient,
                                  ITelegramBotClient telegramClient,
-                                 ILogger<TransportRouteHandler> logger)
+                                 ILogger<TransportRouteQueryHandler> logger)
     {
         _scheduleClient = scheduleClient;
         _telegramClient = telegramClient;
