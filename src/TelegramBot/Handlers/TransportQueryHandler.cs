@@ -16,8 +16,8 @@ public class TransportQueryHandler : IRequestHandler<TransportQuery>
         var routes = request.Update.UserMessage switch
         {
             "Автобусы"    => AllBusRoutes().Select(x => RouteButtons(x, TransportType.Bus)),
-            "Троллейбусы" => AllBusRoutes().Select(x => RouteButtons(x, TransportType.Trolleybus)),
-            "Трамваи"     => AllBusRoutes().Select(x => RouteButtons(x, TransportType.Tram)),
+            "Троллейбусы" => AllTrolleyBusRoutes().Select(x => RouteButtons(x, TransportType.Trolleybus)),
+            "Трамваи"     => AllTramRoutes().Select(x => RouteButtons(x, TransportType.Tram)),
             _ => throw new ArgumentOutOfRangeException(
                 nameof(request), $"This handler is not supposed for {request.Update.UserMessage} request")
         };
