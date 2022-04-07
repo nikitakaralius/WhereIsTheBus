@@ -1,6 +1,6 @@
 module WhereIsTheBus.ScheduleService.InternalDomain
 
-type Transport =
+type TransportType =
     | Bus
     | Trolleybus
     | Tram
@@ -19,6 +19,20 @@ type TransportStop =
       TimeToArrive: int }
 
 type TransportRoute =
-    { Transport: Transport
+    { Transport: TransportType
       Number: int
       Direction: Direction }
+ 
+type TimeToArrive =
+   | Minutes of int
+   | Unspecified of string
+
+type Route = {
+    Name: string
+    TimeToArrive: TimeToArrive
+}
+
+type Transport = {
+    Name: string
+    Routes: Route seq
+}
