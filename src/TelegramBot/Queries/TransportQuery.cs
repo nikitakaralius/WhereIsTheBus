@@ -7,19 +7,18 @@ public class TransportQuery : FromUpdateQuery
     {
         string[] args = update.UserMessage.Split();
 
-        if (args.Length < 2)
-        {
-            return;
-        }
-
-        Transport = args[1] switch
+        Transport = args[0] switch
         {
             "Автобусы" => TransportType.Bus,
             "Трамваи" => TransportType.Tram,
             "Троллейбусы" => TransportType.Trolleybus,
             _ => throw new ArgumentOutOfRangeException(nameof(update.UserMessage), "Transport must be specified")
         };
+
+        FullList = args.Length > 1 && args[1] == "все";
     }
 
     public TransportType? Transport { get; }
+
+    public bool FullList { get; }
 }
