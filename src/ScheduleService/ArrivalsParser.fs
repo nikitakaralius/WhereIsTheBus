@@ -1,4 +1,4 @@
-module internal WhereIsTheBus.ScheduleService.Parser
+module internal WhereIsTheBus.ScheduleService.ArrivalsParser
 
 open System.Text.RegularExpressions
 open System.Threading.Tasks
