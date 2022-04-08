@@ -17,7 +17,7 @@ let private mode route =
     | Trolleybus -> "2"
     | Tram -> "4"
 
-let stopsUrl route =
+let routeUrl route =
     UriBuilder()
         .UseHttps()
         .WithHost(host)
