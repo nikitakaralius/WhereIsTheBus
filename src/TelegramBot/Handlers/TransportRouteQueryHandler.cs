@@ -40,8 +40,8 @@ public sealed class TransportRouteQueryHandler : IRequestHandler<TransportRouteQ
         
         if (transportStops.Any() == false)
         {
-            return $"*Мы не можем найти информацию о вашем маршруте: {VerboseTransport(route)}.\n" +
-                   "Проверьте ваши данные или попробуйте позже*";
+            return $"_Мы не можем найти информацию о вашем маршруте: {VerboseTransport(route)}.\n" +
+                   "Проверьте ваши данные или попробуйте позже_";
         }
         
         StringBuilder sb = new(GenerateRouteMessage(from: route), AverageMessageLength);
@@ -74,7 +74,7 @@ public sealed class TransportRouteQueryHandler : IRequestHandler<TransportRouteQ
     {
         string verboseTransport = VerboseTransport(from);
         string verboseDirection = VerboseDirection(from.Direction);
-        return $"*Выбран {verboseTransport}. {verboseDirection}.* \n\n";
+        return $"_Выбран {verboseTransport}. {verboseDirection}._ \n\n";
     }
 
     private static string VerboseTransport(TransportRoute route)
