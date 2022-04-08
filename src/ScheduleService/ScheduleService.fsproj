@@ -17,6 +17,7 @@
     <Compile Include="CachedArrivalsParser.fs" />
     <Compile Include="StopsParser.fs" />
     <Compile Include="Controllers/TransportController.fs" />
+    <Compile Include="Controllers\StopsController.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

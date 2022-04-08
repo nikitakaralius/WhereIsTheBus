@@ -1,7 +1,8 @@
 module WhereIsTheBus.ScheduleService.StopsParser
 
-open WhereIsTheBus.ScheduleService.InternalDomain
-open WhereIsTheBus.ScheduleService.Providers
+open InternalDomain
+open Providers
+open StopUrlBuilder
 
 let knownTransportTypes = ["Автобус"; "Троллейбус"; "Трамвай"; "Маршрутки"; "Пригородный автобус"]
 
@@ -51,9 +52,9 @@ let private exclude (transport: string list) (from: Transport array) =
     from
     |> Array.filter(fun x -> not (transport |> List.contains x.Name))
 
-let asyncStopTransport url =
+let asyncStopTransport stopId =
     task {
-        let! table = url |> asyncStopTable
+        let! table = stopId |> stopUrl |> asyncStopTable
         let transport = table |> chunkByTransport
         return transport |> exclude ["Маршрутки"; "Пригородный автобус"]
     }
