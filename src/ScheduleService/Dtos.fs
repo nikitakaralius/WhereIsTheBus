@@ -8,6 +8,8 @@ type SharedDirection = WhereIsTheBus.Domain.Enums.Direction
 
 type DomainTransportStop = WhereIsTheBus.Domain.Records.TransportStop
 
+type DomainRoute = WhereIsTheBus.Domain.Records.Route
+
 type TransportRouteDto = {
     Transport: TransportType
     Number: int
@@ -21,13 +23,17 @@ type TransportStopDto = {
     TimeToArrive: int
 }
 
+type TransportDto = {
+    Name: string
+    Routes: DomainRoute seq
+}
+
 let private toInternalTransport transportType =
     match transportType with
     | TransportType.Bus -> TransportType.Bus
     | TransportType.Tram -> TransportType.Tram
     | TransportType.Trolleybus -> TransportType.Trolleybus
-    | _ -> ArgumentOutOfRangeException(nameof transportType) |> raise
-    
+ 
 let private toInternalDirection direction =
     match direction with
     | SharedDirection.Direct -> Direction.Direct
@@ -41,6 +47,13 @@ let private toDomainDirection direction =
     | Direction.Return -> SharedDirection.Return
     | Direction.Both -> SharedDirection.Both
 
+let private toDomainRoute (route: Route) =
+    let timeToArrive =
+        match route.TimeToArrive with
+        | Minutes m -> m.ToString()
+        | Unspecified s -> s
+    DomainRoute(route.Number, timeToArrive)
+
 let toDto (stop: TransportStop) =
     {
         Id = stop.Id
@@ -48,6 +61,14 @@ let toDto (stop: TransportStop) =
         Direction = (toDomainDirection stop.Direction).AsStrictDirection()
         TimeToArrive = stop.TimeToArrive
     }
+
+let toTransportDtos (transport: seq<Transport>) =
+    transport
+    |> Seq.map(fun x ->
+        {
+            Name = x.Name
+            Routes = x.Routes |> Seq.map toDomainRoute
+        })
 
 type TransportRouteDto with
     member this.Domain() : TransportRoute =

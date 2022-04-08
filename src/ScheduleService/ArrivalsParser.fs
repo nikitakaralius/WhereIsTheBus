@@ -48,13 +48,13 @@ let asyncArrivals url =
 
 let directRoute url =
     task {
-        let! document = RouteStopsProvider.AsyncLoad url
+        let! document = RouteProvider.AsyncLoad url
         return document.Tables.Table8.Html |> parseStops Direction.Direct 
     }
 
 let returnRoute url =
     task {
-        let! document = RouteStopsProvider.AsyncLoad url
+        let! document = RouteProvider.AsyncLoad url
         return document.Tables.Table7.Html |> parseStops Direction.Return
     }
 
@@ -67,10 +67,10 @@ let bothRoutes url =
 
 let mergeWith (arrivals: seq<Arrival>) (stops: seq<TransportStop>) = stops.Join(arrivals, stopId, arrivalId, applyArrivalToStop)
 
-let asyncScheduleOf (routeStops: string -> Task<seq<TransportStop>>) stopsUrl arrivalsUrl =
+let asyncScheduleOf (routeStops: string -> Task<seq<TransportStop>>) routeUrl arrivalsUrl =
     task {
         let! arrivals = asyncArrivals arrivalsUrl
-        let! stops = routeStops stopsUrl
+        let! stops = routeStops routeUrl
         return stops |> mergeWith arrivals 
     }
 
@@ -80,4 +80,4 @@ let private direction route =
     | Return -> returnRoute
     | Both   -> bothRoutes
 
-let schedule route = asyncScheduleOf (route |> direction) (route |> stopsUrl) (route |> arrivalsUrl)
+let schedule route = asyncScheduleOf (route |> direction) (route |> routeUrl) (route |> arrivalsUrl)

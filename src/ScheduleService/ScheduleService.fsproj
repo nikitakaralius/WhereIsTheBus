@@ -12,9 +12,12 @@
     <Compile Include="Providers.fs" />
     <Compile Include="HelperFunctions.fs" />
     <Compile Include="RouteUrlBuilder.fs" />
+    <Compile Include="StopUrlBuilder.fs" />
     <Compile Include="ArrivalsParser.fs" />
     <Compile Include="CachedArrivalsParser.fs" />
+    <Compile Include="StopsParser.fs" />
     <Compile Include="Controllers/TransportController.fs" />
+    <Compile Include="Controllers\StopsController.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
