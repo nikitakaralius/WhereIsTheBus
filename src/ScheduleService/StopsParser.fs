@@ -47,7 +47,7 @@ let private chunkByTransport (table: StopsProvider.Table6.Row[]) =
     updateRoutes()
     transport
 
-let exclude (transport: string list) (from: Transport array) =
+let private exclude (transport: string list) (from: Transport array) =
     from
     |> Array.filter(fun x -> not (transport |> List.contains x.Name))
 
