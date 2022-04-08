@@ -27,7 +27,7 @@ let routeUrl route =
         .Uri
         .ToString()
 
-let arrivalsUrl route =
+let arrivalsUrl (route: TransportRoute) =
     UriBuilder()
         .UseHttps()
         .WithHost(host)

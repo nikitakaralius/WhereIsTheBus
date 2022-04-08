@@ -26,8 +26,7 @@ let private toInternalTransport transportType =
     | TransportType.Bus -> TransportType.Bus
     | TransportType.Tram -> TransportType.Tram
     | TransportType.Trolleybus -> TransportType.Trolleybus
-    | _ -> ArgumentOutOfRangeException(nameof transportType) |> raise
-    
+
 let private toInternalDirection direction =
     match direction with
     | SharedDirection.Direct -> Direction.Direct
