@@ -6,15 +6,15 @@ open WhereIsTheBus.ScheduleService.StopsParser
 
 [<ApiController>]
 [<Route("/api/[controller]")>]
-type Stops() =
+type StopsController() =
     inherit ControllerBase()
 
     [<HttpGet("{stopId:int}")>]
     member _.TransportBy(stopId: int) =
         task {
-            if stopId > 0 then
+            try
                 let! transport = asyncStopTransport stopId
                 return OkObjectResult(transport |> toTransportDtos) :> IActionResult
-            else
-                return NotFoundResult()
+            with
+                _ -> return NotFoundResult()
         }
