@@ -5,12 +5,13 @@ public class StopQuery : FromUpdateQuery<int?>
 {
     public StopQuery(UpdateEvent update) : base(update)
     {
-        if (update.UserMessage.Length < 2)
+        string[] args = update.UserMessage.Split();
+        if (args.Length < 2)
         {
             return;
         }
 
-        if (int.TryParse(update.UserMessage, out int value))
+        if (int.TryParse(args[1], out int value))
         {
             Value = value;
         }

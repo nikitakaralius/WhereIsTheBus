@@ -47,7 +47,7 @@ public class StopQueryHandler : IRequestHandler<StopQuery>
             sb.Append($"*{name}*\n");
             foreach (var route in routes)
             {
-                string time = route.HasValidTime ? $"_{route.TimeToArrive} мин._" : $"_route.TimeToArrive_";
+                string time = route.HasValidTime ? $"_{route.TimeToArrive} мин._" : $"_{route.TimeToArrive}_";
                 sb.Append($"{route.Number}: {time}\n");
             }
             sb.AppendLine();
