@@ -19,12 +19,12 @@ public class StopQueryHandler : IRequestHandler<StopQuery>
 
     public async Task<Unit> Handle(StopQuery request, CancellationToken cancellationToken)
     {
-        if (request.Value is null)
+        if (request.StopId is null)
         {
             return Unit.Value;
         }
 
-        IEnumerable<Transport> transport = await _schedule.TransportAsync(request.Value.Value);
+        IEnumerable<Transport> transport = await _schedule.TransportAsync(request.StopId.Value);
         transport = transport as Transport[] ?? transport.ToArray();
         
         string message = transport.Any()

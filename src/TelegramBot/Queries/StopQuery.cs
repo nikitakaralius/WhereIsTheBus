@@ -1,7 +1,7 @@
 namespace WhereIsTheBus.TelegramBot.Queries;
 
 [TelegramRoutes("/s", "/stop")]
-public class StopQuery : FromUpdateQuery<int?>
+public class StopQuery : FromUpdateQuery
 {
     public StopQuery(UpdateEvent update) : base(update)
     {
@@ -13,9 +13,9 @@ public class StopQuery : FromUpdateQuery<int?>
 
         if (int.TryParse(args[1], out int value))
         {
-            Value = value;
+            StopId = value;
         }
     }
 
-    public override int? Value { get; }
+    public int? StopId { get; }
 }
