@@ -10,8 +10,10 @@ type DomainTransportStop = WhereIsTheBus.Domain.Records.TransportStop
 
 type DomainRoute = WhereIsTheBus.Domain.Records.Route
 
+type DomainTransportType = WhereIsTheBus.Domain.Enums.TransportType
+
 type TransportRouteDto = {
-    Transport: TransportType
+    Transport: DomainTransportType
     Number: int
     Direction: SharedDirection
 }
@@ -30,9 +32,10 @@ type TransportDto = {
 
 let private toInternalTransport transportType =
     match transportType with
-    | TransportType.Bus -> TransportType.Bus
-    | TransportType.Tram -> TransportType.Tram
-    | TransportType.Trolleybus -> TransportType.Trolleybus
+    | DomainTransportType.Bus -> TransportType.Bus
+    | DomainTransportType.Tram -> TransportType.Tram
+    | DomainTransportType.Trolleybus -> TransportType.Trolleybus
+    | _ -> ArgumentOutOfRangeException() |> raise
  
 let private toInternalDirection direction =
     match direction with

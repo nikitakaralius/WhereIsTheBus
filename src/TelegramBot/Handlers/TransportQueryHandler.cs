@@ -13,21 +13,43 @@ public class TransportQueryHandler : IRequestHandler<TransportQuery>
 
     public async Task<Unit> Handle(TransportQuery request, CancellationToken cancellationToken)
     {
-        var routes = request.Update.UserMessage switch
+        if (request.Transport is null)
         {
-            "Автобусы"    => AllBusRoutes().Select(x => RouteButtons(x, TransportType.Bus)),
-            "Троллейбусы" => AllTrolleyBusRoutes().Select(x => RouteButtons(x, TransportType.Trolleybus)),
-            "Трамваи"     => AllTramRoutes().Select(x => RouteButtons(x, TransportType.Tram)),
-            _ => throw new ArgumentOutOfRangeException(
-                nameof(request), $"This handler is not supposed for {request.Update.UserMessage} request")
-        };
-        InlineKeyboardMarkup keyboard = new(routes);
+            return Unit.Value;
+        }
+
+        InlineKeyboardMarkup keyboard = new(RouteButtons(request));
         await _telegram.SendTextMessageAsync(request.Update.ChatId, "Выберите маршрут", replyMarkup: keyboard,
                                              cancellationToken: cancellationToken);
         return Unit.Value;
     }
 
-    private InlineKeyboardButton[] RouteButtons(int route, TransportType transport)
+    private IEnumerable<InlineKeyboardButton[]> RouteButtons(TransportQuery query)
+    {
+        var transport = query.Transport!.Value;
+        IEnumerable<int> routes = transport switch
+        {
+            TransportType.Bus when !query.FullList => CommonBusRoutes(),
+            TransportType.Bus when query.FullList  => ExtraBusRoutes(),
+            TransportType.Trolleybus               => AllTrolleybusesRoutes(),
+            TransportType.Tram                     => AllTramRoutes(),
+            TransportType.None or _                => throw new ArgumentOutOfRangeException(nameof(query))
+        };
+
+        var buttons = routes.Select(x => ButtonsFor(x, transport));
+
+        if (transport == TransportType.Bus && query.FullList == false)
+        {
+            buttons = buttons.Append(new[]
+            {
+                InlineKeyboardButton.WithCallbackData("Другие маршруты", "Автобусы все"),
+            });
+        }
+        
+        return buttons;
+    }
+
+    private InlineKeyboardButton[] ButtonsFor(int route, TransportType transport)
     {
         string command = CommandOf(transport);
         return new[]
@@ -49,28 +71,11 @@ public class TransportQueryHandler : IRequestHandler<TransportQuery>
         };
     }
 
-    private int[] AllBusRoutes()
-    {
-        return new[]
-        {
-            2, 6, 7, 8, 9, 11, 12, 15, 16, 19, 21, 22, 23, 25, 26,
-            27, 28, 29, 31, 34, 36, 40, 41, 45, 56, 68, 73, 79
-        };
-    }
+    private IEnumerable<int> CommonBusRoutes() => new[] {8, 12, 18, 21, 22, 26, 27, 28, 29, 36, 79};
 
-    private int[] AllTrolleyBusRoutes()
-    {
-        return new[]
-        {
-            1, 2, 4, 6, 7, 9, 10, 14
-        };
-    }
+    private IEnumerable<int> ExtraBusRoutes() => new[] {2, 6, 7, 11, 15, 16, 23, 25, 31, 34, 40, 41, 45, 56, 68, 73};
 
-    private int[] AllTramRoutes()
-    {
-        return new[]
-        {
-            1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12
-        };
-    }
+    private IEnumerable<int> AllTrolleybusesRoutes() => new[] {1, 2, 4, 6, 7, 9, 10, 14};
+
+    private IEnumerable<int> AllTramRoutes() => new[] {1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12};
 }
