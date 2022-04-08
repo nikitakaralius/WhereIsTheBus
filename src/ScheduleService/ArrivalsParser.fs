@@ -71,6 +71,7 @@ let asyncScheduleOf (routeStops: string -> Task<seq<TransportStop>>) routeUrl ar
     task {
         let! arrivals = asyncArrivals arrivalsUrl
         let! stops = routeStops routeUrl
+    }
 
 let private direction route =
     match route.Direction with
