@@ -71,7 +71,7 @@ public class TransportQueryHandler : IRequestHandler<TransportQuery>
         };
     }
 
-    private IEnumerable<int> CommonBusRoutes() => new[] {8, 12, 18, 21, 22, 26, 27, 28, 29, 36, 79};
+    private IEnumerable<int> CommonBusRoutes() => new[] {8, 12, 18, 19, 21, 22, 26, 27, 28, 29, 36, 79};
 
     private IEnumerable<int> ExtraBusRoutes() => new[] {2, 6, 7, 11, 15, 16, 23, 25, 31, 34, 40, 41, 45, 56, 68, 73};
 
