@@ -2,7 +2,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace WhereIsTheBus.TelegramBot.Handlers;
 
-public class TransportQueryHandler : IRequestHandler<TransportQuery>
+internal sealed class TransportQueryHandler : IRequestHandler<TransportQuery>
 {
     private readonly ITelegramBotClient _telegram;
 

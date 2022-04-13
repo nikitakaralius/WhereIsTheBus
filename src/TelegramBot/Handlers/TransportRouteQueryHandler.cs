@@ -3,7 +3,7 @@ using Telegram.Bot.Types.Enums;
 
 namespace WhereIsTheBus.TelegramBot.Handlers;
 
-public sealed class TransportRouteQueryHandler : IRequestHandler<TransportRouteQuery>
+internal sealed class TransportRouteQueryHandler : IRequestHandler<TransportRouteQuery>
 {
     private const int AverageMessageLength = 1200;
 

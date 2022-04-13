@@ -2,7 +2,7 @@
 
 namespace WhereIsTheBus.TelegramBot.Handlers;
 
-public class StartQueryHandler : IRequestHandler<StartQuery>
+internal sealed class StartQueryHandler : IRequestHandler<StartQuery>
 {
     private readonly ITelegramBotClient _telegram;
 

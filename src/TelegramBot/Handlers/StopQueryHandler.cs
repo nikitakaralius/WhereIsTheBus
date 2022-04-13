@@ -4,7 +4,7 @@ using Route = WhereIsTheBus.Domain.Records.Route;
 
 namespace WhereIsTheBus.TelegramBot.Handlers;
 
-public class StopQueryHandler : IRequestHandler<StopQuery>
+internal sealed class StopQueryHandler : IRequestHandler<StopQuery>
 {
     private const int AverageMessageLength = 500;
 
