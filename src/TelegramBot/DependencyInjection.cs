@@ -1,4 +1,4 @@
-using WhereIsTheBus.TelegramBot.Telegram.RequestRouter;
+using WhereIsTheBus.TelegramBot.Extensions;
 
 namespace WhereIsTheBus.TelegramBot;
 
@@ -15,7 +15,7 @@ internal static class DependencyInjection
                    httpClient => new TelegramBotClient(botConfiguration.Token, httpClient));
         services.AddHttpClient<IScheduleClient, HttpScheduleClient>();
         services.AddScoped<IHandleUpdateService, HandleUpdateService>();
-        services.AddScoped<ITelegramRequestRouter, TelegramRequestRouter>();
+        services.AddTelegramRouter();
         services.AddControllers()
                .AddNewtonsoftJson();
         
