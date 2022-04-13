@@ -1,7 +1,7 @@
 namespace WhereIsTheBus.TelegramBot.Queries;
 
 [TelegramRoutes("/s", "/stop")]
-public class StopQuery : FromUpdateQuery
+internal sealed class StopQuery : FromUpdateQuery
 {
     public StopQuery(UpdateEvent update) : base(update)
     {
