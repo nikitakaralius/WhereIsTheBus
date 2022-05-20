@@ -57,7 +57,7 @@ let private chunkByTransport (table: StopsProvider.Table6.Row[]) =
 let private exclude (from: StopArrivals array) =
     from |> Array.filter(fun x -> x.TransportType <> Undefined)
 
-let asyncStopTransport stopId =
+let asyncStopArrivals stopId =
     task {
         let! table = stopId |> stopUrl |> asyncStopTable
         let transport = table |> chunkByTransport

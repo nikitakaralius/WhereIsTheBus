@@ -23,17 +23,15 @@ type TransportRoute =
     { Transport: TransportType
       Number: int
       Direction: Direction }
- 
+
 type TimeToArrive =
-   | Minutes of int
-   | Unspecified of string
+    | Minutes of int
+    | Unspecified of string
 
-type Arrival = {
-    TransportNumber: int
-    TimeToArrive: TimeToArrive
-}
+type Arrival =
+    { TransportNumber: int
+      TimeToArrive: TimeToArrive }
 
-type StopArrivals = {
-    TransportType: TransportType
-    Arrivals: Arrival seq
-}
+type StopArrivals =
+    { TransportType: TransportType
+      Arrivals: Arrival seq }

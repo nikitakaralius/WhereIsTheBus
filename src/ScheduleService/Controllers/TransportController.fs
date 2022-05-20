@@ -1,7 +1,7 @@
 namespace WhereIsTheBus.ScheduleService.Controllers
 
 open Microsoft.AspNetCore.Mvc
-open WhereIsTheBus.ScheduleService.Dtos
+open WhereIsTheBus.ScheduleService.DTOs
 open WhereIsTheBus.ScheduleService.CachedArrivalsParser
 open System.Linq
 
@@ -14,8 +14,8 @@ type TransportController() =
     member _.StopsOf(dto: TransportRouteDto) =
         task {
             try
-                let! schedule = dto.Domain() |> cachedSchedule
-                return OkObjectResult (schedule.Select(fun x -> toDto x)) :> IActionResult
+                let! schedule = dto.Map() |> cachedSchedule
+                return OkObjectResult (schedule.Select(fun x -> x.Map())) :> IActionResult
             with
             _ -> return NotFoundResult()
         }

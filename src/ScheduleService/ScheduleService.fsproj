@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Compile Include="Types.fs" />
+    <Compile Include="DTOs.fs" />
     <Compile Include="Providers.fs" />
     <Compile Include="HelperFunctions.fs" />
     <Compile Include="RouteUrlBuilder.fs" />
