@@ -12,7 +12,7 @@ let private transportStopsRegex = Regex("(?<='\\[)(.*)(?=\\]')", RegexOptions.Co
 
 let private arrivalsRegex = Regex("(?<=<small class=grey>)(.*)(?=</small>)", RegexOptions.Compiled)
 
-let private parseArrivals (queryContent: HtmlDocument) =
+let private parseStopsTime (queryContent: HtmlDocument) =
     queryContent.ToString().Split('\n')
     |> Seq.map (fun x -> transportStopsRegex.Match x |> string |> withDigitsOnly,
                          arrivalsRegex.Match x |> string |> withDigitsOnly)
@@ -34,16 +34,16 @@ let private parseStops direction (table: HtmlNode) =
                 Direction = direction
             }))
 
-let private applyArrivalToStop (stop: TransportStop) (arrival: StopTime) = { stop with TimeToArrive = arrival.TimeToArrive }
+let private applyArrivalTimeToStop (stop: TransportStop) (arrival: StopTime) = { stop with TimeToArrive = arrival.TimeToArrive }
 
 let private arrivalId arrival = arrival.StopId
 
 let private stopId stop = stop.Id;
 
-let asyncArrivals url =
+let asyncStopsTime url =
     task {
         let! document = ArrivalsProvider.AsyncLoad url
-        return document.Html |> parseArrivals
+        return document.Html |> parseStopsTime
     }
 
 let directRoute url =
@@ -65,11 +65,11 @@ let bothRoutes url =
         return directRoute |> Seq.append returnRoute
     }
 
-let mergeWith (arrivals: seq<StopTime>) (stops: seq<TransportStop>) = stops.Join(arrivals, stopId, arrivalId, applyArrivalToStop)
+let mergeWith (arrivals: seq<StopTime>) (stops: seq<TransportStop>) = stops.Join(arrivals, stopId, arrivalId, applyArrivalTimeToStop)
 
 let asyncScheduleOf (routeStops: string -> Task<seq<TransportStop>>) routeUrl arrivalsUrl =
     task {
-        let! arrivals = asyncArrivals arrivalsUrl
+        let! arrivals = asyncStopsTime arrivalsUrl
         let! stops = routeStops routeUrl
         return stops |> mergeWith arrivals 
     }

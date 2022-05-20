@@ -11,7 +11,7 @@ let private stops = Dictionary<TransportRoute, IEnumerable<TransportStop>>()
 let cachedSchedule route =
     match stops.TryGetValue route with
     | true, value when value.Any() -> task {
-        let! arrivals = asyncArrivals (route |> arrivalsUrl)
+        let! arrivals = asyncStopsTime (route |> arrivalsUrl)
         return value |> mergeWith arrivals
         }
     | _ ->

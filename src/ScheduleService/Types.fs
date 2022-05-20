@@ -33,6 +33,6 @@ type Arrival = {
 }
 
 type StopArrivals = {
-    Transport: TransportType
+    TransportType: TransportType
     Arrivals: Arrival seq
 }
