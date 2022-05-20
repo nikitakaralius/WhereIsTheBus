@@ -1,6 +1,6 @@
 module WhereIsTheBus.ScheduleService.StopsParser
 
-open InternalDomain
+open Types
 open Providers
 open StopUrlBuilder
 
@@ -15,15 +15,15 @@ let private asyncStopTable url =
     }
     
 let private chunkByTransport (table: StopsProvider.Table6.Row[]) =
-    let mutable transport: Transport array = [||]
-    let mutable routes: Route seq = []
+    let mutable transport: StopArrivals array = [||]
+    let mutable routes: Arrival seq = []
     
     let updateRoutes() =
         if transport |> Array.isEmpty then
             ()
         else
             let index = transport.Length - 1
-            transport[index] <- { transport[index] with Routes = routes }
+            transport[index] <- { transport[index] with Arrivals = routes }
             routes <- []
     
     for row in table do
@@ -48,7 +48,7 @@ let private chunkByTransport (table: StopsProvider.Table6.Row[]) =
     updateRoutes()
     transport
 
-let private exclude (transport: string list) (from: Transport array) =
+let private exclude (transport: string list) (from: StopArrivals array) =
     from
     |> Array.filter(fun x -> not (transport |> List.contains x.Name))
 

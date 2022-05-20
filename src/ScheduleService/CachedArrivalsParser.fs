@@ -2,7 +2,7 @@ module internal WhereIsTheBus.ScheduleService.CachedArrivalsParser
 
 open System.Collections.Generic
 open System.Linq
-open InternalDomain
+open Types
 open ArrivalsParser
 open RouteUrlBuilder
 

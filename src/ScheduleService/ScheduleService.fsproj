@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="InternalDomain.fs" />
+    <Compile Include="Types.fs" />
     <Compile Include="Dtos.fs" />
     <Compile Include="Providers.fs" />
     <Compile Include="HelperFunctions.fs" />

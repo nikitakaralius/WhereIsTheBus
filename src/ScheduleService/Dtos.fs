@@ -2,7 +2,7 @@ module WhereIsTheBus.ScheduleService.Dtos
 
 open System
 open WhereIsTheBus.Domain.Enums
-open WhereIsTheBus.ScheduleService.InternalDomain
+open WhereIsTheBus.ScheduleService.Types
 
 type SharedDirection = WhereIsTheBus.Domain.Enums.Direction
 
@@ -50,7 +50,7 @@ let private toDomainDirection direction =
     | Direction.Return -> SharedDirection.Return
     | Direction.Both -> SharedDirection.Both
 
-let private toDomainRoute (route: Route) =
+let private toDomainRoute (route: Arrival) =
     let timeToArrive =
         match route.TimeToArrive with
         | Minutes m -> m.ToString()
@@ -65,12 +65,12 @@ let toDto (stop: TransportStop) =
         TimeToArrive = stop.TimeToArrive
     }
 
-let toTransportDtos (transport: seq<Transport>) =
+let toTransportDtos (transport: seq<StopArrivals>) =
     transport
     |> Seq.map(fun x ->
         {
             Name = x.Name
-            Routes = x.Routes |> Seq.map toDomainRoute
+            Routes = x.Arrivals |> Seq.map toDomainRoute
         })
 
 type TransportRouteDto with
