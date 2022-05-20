@@ -1,6 +1,7 @@
 module WhereIsTheBus.ScheduleService.Types
 
 type TransportType =
+    | Undefined
     | Bus
     | Trolleybus
     | Tram
