@@ -41,7 +41,7 @@ let private chunkByTransport (table: StopsProvider.Table6.Row[]) =
                                | None -> Unspecified(row.Column2)
             let route =
                 {
-                    Number = row.Column1 |> int
+                    TransportNumber = row.Column1 |> int
                     TimeToArrive = timeToArrive
                 }
             routes <- [route] |> Seq.append routes

@@ -28,7 +28,7 @@ type TimeToArrive =
    | Unspecified of string
 
 type Route = {
-    Number: int
+    TransportNumber: int
     TimeToArrive: TimeToArrive
 }
 

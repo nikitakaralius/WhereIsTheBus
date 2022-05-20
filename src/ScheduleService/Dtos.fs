@@ -55,7 +55,7 @@ let private toDomainRoute (route: Route) =
         match route.TimeToArrive with
         | Minutes m -> m.ToString()
         | Unspecified s -> s
-    DomainRoute(route.Number, timeToArrive)
+    DomainRoute(route.TransportNumber, timeToArrive)
 
 let toDto (stop: TransportStop) =
     {
