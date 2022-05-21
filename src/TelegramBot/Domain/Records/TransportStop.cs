@@ -1,4 +1,4 @@
-namespace WhereIsTheBus.Domain.Records;
+namespace WhereIsTheBus.TelegramBot.Domain.Records;
 
 public record TransportStop(int Id, string Name, StrictDirection Direction, int TimeToArrive)
 {

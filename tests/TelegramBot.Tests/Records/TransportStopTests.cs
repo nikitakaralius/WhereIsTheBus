@@ -1,6 +1,6 @@
-using static WhereIsTheBus.Domain.Enums.StrictDirection;
+using static WhereIsTheBus.TelegramBot.Domain.Enums.StrictDirection;
 
-namespace WhereIsTheBus.Domain.Tests.Records;
+namespace WhereIsTheBus.TelegramBot.Tests.Records;
 
 [TestFixture]
 public class TransportStopTests

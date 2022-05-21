@@ -1,4 +1,4 @@
-namespace WhereIsTheBus.Domain.Enums;
+namespace WhereIsTheBus.TelegramBot.Domain.Enums;
 
 public enum TransportType
 {

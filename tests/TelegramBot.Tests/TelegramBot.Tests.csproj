@@ -3,8 +3,8 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <RootNamespace>WhereIsTheBus.Domain.Tests</RootNamespace>
-        <AssemblyName>WhereIsTheBus.Domain.Tests</AssemblyName>
+        <RootNamespace>WhereIsTheBus.TelegramBot.Tests</RootNamespace>
+        <AssemblyName>WhereIsTheBus.TelegramBot.Tests</AssemblyName>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 
@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Domain\Domain.csproj" />
+      <ProjectReference Include="..\..\src\TelegramBot\TelegramBot.csproj" />
     </ItemGroup>
 
 </Project>

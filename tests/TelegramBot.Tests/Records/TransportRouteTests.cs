@@ -1,4 +1,4 @@
-namespace WhereIsTheBus.Domain.Tests.Records;
+namespace WhereIsTheBus.TelegramBot.Tests.Records;
 
 [TestFixture]
 public class TransportRouteTests
