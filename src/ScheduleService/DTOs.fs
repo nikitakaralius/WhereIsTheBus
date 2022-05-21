@@ -29,13 +29,13 @@ let private direction (dto: DirectionDto) =
     | _ -> failwith "Invalid direction"
 
 type TransportRouteDto =
-    { TransportType: TransportTypeDto
+    { Transport: TransportTypeDto
       Number: int
       Direction: DirectionDto }
 
 type TransportRouteDto with
-    member this.Map() =
-        { Transport = transportType this.TransportType
+    member this.Map(): TransportRoute =
+        { Transport = transportType this.Transport
           Number = this.Number
           Direction = direction this.Direction }
 

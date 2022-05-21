@@ -10,12 +10,14 @@ let private transport route =
     | Bus -> "bus/izh"
     | Trolleybus -> "trol"
     | Tram -> "tram"
+    | Undefined -> failwith "Undefined transport type"
 
 let private mode route =
     match route.Transport with
     | Bus -> "1"
     | Trolleybus -> "2"
     | Tram -> "4"
+    | Undefined -> failwith "Undefined transport type"
 
 let routeUrl route =
     UriBuilder()
