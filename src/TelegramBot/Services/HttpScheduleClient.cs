@@ -32,7 +32,7 @@ internal sealed class HttpScheduleClient : IScheduleClient
         return Array.Empty<TransportStop>();
     }
 
-    public async Task<IEnumerable<StopArrivals>> TransportAsync(int stopId)
+    public async Task<IEnumerable<Transport>> TransportAsync(int stopId)
     {
         string url = $"{_configuration.ScheduleServiceStops()}/{stopId}";
         var response = await _httpClient.GetAsync(url);
@@ -40,10 +40,10 @@ internal sealed class HttpScheduleClient : IScheduleClient
         if (response.IsSuccessStatusCode)
         {
             _logger.LogInformation("Schedule Service Transport Request is OK");
-            return await response.Content.ReadFromJsonAsync<IEnumerable<StopArrivals>>() ?? Array.Empty<StopArrivals>();
+            return await response.Content.ReadFromJsonAsync<IEnumerable<Transport>>() ?? Array.Empty<Transport>();
         }
         
         _logger.LogInformation("Schedule Service Transport Request is NOT OK");
-        return Array.Empty<StopArrivals>();
+        return Array.Empty<Transport>();
     }
 }

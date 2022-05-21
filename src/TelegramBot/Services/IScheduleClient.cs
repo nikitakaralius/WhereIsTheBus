@@ -4,5 +4,5 @@ internal interface IScheduleClient
 {
     Task<IEnumerable<TransportStop>> StopsAsync(TransportRoute route);
 
-    Task<IEnumerable<StopArrivals>> TransportAsync(int stopId);
+    Task<IEnumerable<Transport>> TransportAsync(int stopId);
 }

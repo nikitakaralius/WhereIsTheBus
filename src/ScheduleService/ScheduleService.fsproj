@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Types.fs" />
-    <Compile Include="DTOs.fs" />
+    <Compile Include="InternalDomain.fs" />
+    <Compile Include="Dtos.fs" />
     <Compile Include="Providers.fs" />
     <Compile Include="HelperFunctions.fs" />
     <Compile Include="RouteUrlBuilder.fs" />
@@ -24,6 +24,10 @@
   <ItemGroup>
     <PackageReference Include="FSharp.Data" Version="4.2.7" />
     <PackageReference Include="UriBuilder.Fluent" Version="1.5.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>

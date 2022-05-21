@@ -1,10 +1,11 @@
 module WhereIsTheBus.ScheduleService.StopsParser
 
-open Types
+open InternalDomain
 open Providers
 open StopUrlBuilder
 
 let knownTransportTypes = ["Автобус"; "Троллейбус"; "Трамвай"; "Маршрутки"; "Пригородный автобус"]
+
 
 let private asyncStopTable url =
     task {
@@ -13,53 +14,47 @@ let private asyncStopTable url =
                |> Array.filter(fun x -> x.Column1 <> "Номер маршрута")
     }
     
-let private parse transport =
-    match transport with
-    | "Автобус" -> Bus
-    | "Троллейбус" -> Trolleybus
-    | "Трамвай" -> Tram
-    | _ -> Undefined
-    
 let private chunkByTransport (table: StopsProvider.Table6.Row[]) =
-    let mutable transport: StopArrivals array = [||]
-    let mutable arrivals: Arrival seq = []
+    let mutable transport: Transport array = [||]
+    let mutable routes: Route seq = []
     
-    let updateArrivals() =
+    let updateRoutes() =
         if transport |> Array.isEmpty then
             ()
         else
             let index = transport.Length - 1
-            transport[index] <- { transport[index] with Arrivals = arrivals }
-            arrivals <- []
+            transport[index] <- { transport[index] with Routes = routes }
+            routes <- []
     
     for row in table do
         if knownTransportTypes |> List.contains row.Column1 then
-            updateArrivals()
+            updateRoutes()
             let newTransport =
                 {
-                    TransportType = parse row.Column1
-                    Arrivals = []
+                    Name = row.Column1
+                    Routes = []
                 }
             transport <- [|newTransport|] |> Array.append transport
         else
             let timeToArrive = match tryParseInt row.Column2 with
                                | Some value -> Minutes(value)
                                | None -> Unspecified(row.Column2)
-            let arrival =
+            let route =
                 {
-                    TransportNumber = row.Column1 |> int
+                    Number = row.Column1 |> int
                     TimeToArrive = timeToArrive
                 }
-            arrivals <- [arrival] |> Seq.append arrivals
-    updateArrivals()
+            routes <- [route] |> Seq.append routes
+    updateRoutes()
     transport
 
-let private exclude (from: StopArrivals array) =
-    from |> Array.filter(fun x -> x.TransportType <> Undefined)
+let private exclude (transport: string list) (from: Transport array) =
+    from
+    |> Array.filter(fun x -> not (transport |> List.contains x.Name))
 
-let asyncStopArrivals stopId =
+let asyncStopTransport stopId =
     task {
         let! table = stopId |> stopUrl |> asyncStopTable
         let transport = table |> chunkByTransport
-        return transport
+        return transport |> exclude ["Маршрутки"; "Пригородный автобус"]
     }
