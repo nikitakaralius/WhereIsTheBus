@@ -10,6 +10,10 @@
 		850E8B66283A845D001C1484 /* Development.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 850E8B64283A845D001C1484 /* Development.xcconfig */; };
 		850E8B67283A845D001C1484 /* Production.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 850E8B65283A845D001C1484 /* Production.xcconfig */; };
 		850E8B6B283A84F3001C1484 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850E8B6A283A84F3001C1484 /* Configuration.swift */; };
+		851F9E12283A8FBB00AB8F13 /* ScheduleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F9E11283A8FBB00AB8F13 /* ScheduleService.swift */; };
+		851F9E15283AA3C500AB8F13 /* TransportStopDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F9E14283AA3C500AB8F13 /* TransportStopDTO.swift */; };
+		851F9E17283AA3EA00AB8F13 /* ArrivalDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F9E16283AA3EA00AB8F13 /* ArrivalDTO.swift */; };
+		851F9E19283AA46000AB8F13 /* StopArrivalsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F9E18283AA46000AB8F13 /* StopArrivalsDTO.swift */; };
 		85A97F7C283A4C6800937BCB /* IzhTransportApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A97F7B283A4C6800937BCB /* IzhTransportApp.swift */; };
 		85A97F7E283A4C6800937BCB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A97F7D283A4C6800937BCB /* ContentView.swift */; };
 		85A97F80283A4C6B00937BCB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85A97F7F283A4C6B00937BCB /* Assets.xcassets */; };
@@ -26,6 +30,10 @@
 		850E8B65283A845D001C1484 /* Production.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
 		850E8B68283A847A001C1484 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		850E8B6A283A84F3001C1484 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		851F9E11283A8FBB00AB8F13 /* ScheduleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleService.swift; sourceTree = SOURCE_ROOT; };
+		851F9E14283AA3C500AB8F13 /* TransportStopDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportStopDTO.swift; sourceTree = "<group>"; };
+		851F9E16283AA3EA00AB8F13 /* ArrivalDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrivalDTO.swift; sourceTree = "<group>"; };
+		851F9E18283AA46000AB8F13 /* StopArrivalsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopArrivalsDTO.swift; sourceTree = "<group>"; };
 		85A97F78283A4C6800937BCB /* IzhTransport.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IzhTransport.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85A97F7B283A4C6800937BCB /* IzhTransportApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IzhTransportApp.swift; sourceTree = "<group>"; };
 		85A97F7D283A4C6800937BCB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -57,6 +65,16 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
+		851F9E13283AA3A200AB8F13 /* DTOs */ = {
+			isa = PBXGroup;
+			children = (
+				851F9E14283AA3C500AB8F13 /* TransportStopDTO.swift */,
+				851F9E16283AA3EA00AB8F13 /* ArrivalDTO.swift */,
+				851F9E18283AA46000AB8F13 /* StopArrivalsDTO.swift */,
+			);
+			path = DTOs;
+			sourceTree = "<group>";
+		};
 		85A97F6F283A4C6800937BCB = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +94,7 @@
 		85A97F7A283A4C6800937BCB /* IzhTransport */ = {
 			isa = PBXGroup;
 			children = (
+				851F9E13283AA3A200AB8F13 /* DTOs */,
 				850E8B69283A84E3001C1484 /* Configuration */,
 				85F2B04E283A55CE00800B72 /* Services */,
 				85F2B04D283A550300800B72 /* Repositories */,
@@ -137,6 +156,7 @@
 		85F2B04E283A55CE00800B72 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				851F9E11283A8FBB00AB8F13 /* ScheduleService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -235,11 +255,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				85A97F7E283A4C6800937BCB /* ContentView.swift in Sources */,
+				851F9E17283AA3EA00AB8F13 /* ArrivalDTO.swift in Sources */,
 				85F2B057283A59B300800B72 /* TransportRoute.swift in Sources */,
 				85F2B053283A591500800B72 /* Arrival.swift in Sources */,
+				851F9E15283AA3C500AB8F13 /* TransportStopDTO.swift in Sources */,
+				851F9E12283A8FBB00AB8F13 /* ScheduleService.swift in Sources */,
 				85F2B059283A59E100800B72 /* TransportStop.swift in Sources */,
 				85A97F7C283A4C6800937BCB /* IzhTransportApp.swift in Sources */,
 				85F2B051283A586100800B72 /* Enums.swift in Sources */,
+				851F9E19283AA46000AB8F13 /* StopArrivalsDTO.swift in Sources */,
 				850E8B6B283A84F3001C1484 /* Configuration.swift in Sources */,
 				85F2B055283A597D00800B72 /* StopArrivals.swift in Sources */,
 			);

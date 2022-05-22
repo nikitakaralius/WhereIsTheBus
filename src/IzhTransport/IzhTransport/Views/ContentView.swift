@@ -8,11 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
+    let scheduleService = ScheduleService()
+
+    @State private var text = "Hello, World!"
+
     var body: some View {
-        Text("Hello, world!")
+        Text(text)
             .padding()
             .onAppear {
                 print(API.scheduleService)
+                scheduleService.arrivals(for: TransportRoute(
+                    transport: .bus,
+                    number: 29,
+                    direction: .direct)) { stops, error  in
+                        text = stops.first?.name ?? "nil"
+                        print(error ?? "no error")
+                    }
             }
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TransportRoute {
+struct TransportRoute: Codable {
     let transport: TransportType
     let number: Int
     let direction: Direction
