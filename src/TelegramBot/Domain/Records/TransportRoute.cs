@@ -1,6 +1,6 @@
 namespace WhereIsTheBus.TelegramBot.Domain.Records;
 
-public record TransportRoute(TransportType Transport, int Number, Direction Direction)
+internal sealed record TransportRoute(TransportType Transport, int Number, Direction Direction)
 {
     public static TransportRoute? Parse(string[] args)
     {
