@@ -1,6 +1,6 @@
-namespace WhereIsTheBus.Domain.Exceptions;
+namespace WhereIsTheBus.TelegramBot.Domain.Exceptions;
 
-public class InvalidDirectionConversion : Exception
+internal sealed class InvalidDirectionConversion : Exception
 {
     public InvalidDirectionConversion(Direction direction) 
         : base($"Can not convert {direction} to StrictDirection")

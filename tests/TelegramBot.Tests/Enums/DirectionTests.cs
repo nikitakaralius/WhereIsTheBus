@@ -1,4 +1,4 @@
-namespace WhereIsTheBus.Domain.Tests.Enums;
+namespace WhereIsTheBus.TelegramBot.Tests.Enums;
 
 [TestFixture]
 public class DirectionTests

@@ -1,6 +1,7 @@
-module WhereIsTheBus.ScheduleService.InternalDomain
+module WhereIsTheBus.ScheduleService.Types
 
 type TransportType =
+    | Undefined
     | Bus
     | Trolleybus
     | Tram
@@ -10,7 +11,7 @@ type Direction =
     | Return
     | Both
 
-type Arrival = { StopId: int; TimeToArrive: int }
+type StopTime = { StopId: int; TimeToArrive: int }
 
 type TransportStop =
     { Id: int
@@ -22,17 +23,15 @@ type TransportRoute =
     { Transport: TransportType
       Number: int
       Direction: Direction }
- 
+
 type TimeToArrive =
-   | Minutes of int
-   | Unspecified of string
+    | Minutes of int
+    | Unspecified of string
 
-type Route = {
-    Number: int
-    TimeToArrive: TimeToArrive
-}
+type Arrival =
+    { TransportNumber: int
+      TimeToArrive: TimeToArrive }
 
-type Transport = {
-    Name: string
-    Routes: Route seq
-}
+type StopArrivals =
+    { TransportType: TransportType
+      Arrivals: Arrival seq }
