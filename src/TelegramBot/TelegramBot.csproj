@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -6,6 +6,7 @@
     <AssemblyName>WhereIsTheBus.TelegramBot</AssemblyName>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>39081599-8da8-4fdf-ae5b-cc27ef07bd4f</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
