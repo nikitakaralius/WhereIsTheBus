@@ -1,5 +1,6 @@
 using System.Text;
 using Telegram.Bot.Types.Enums;
+using Route = WhereIsTheBus.Domain.Records.Route;
 
 namespace WhereIsTheBus.TelegramBot.Handlers;
 
@@ -23,8 +24,8 @@ internal sealed class StopQueryHandler : IRequestHandler<StopQuery>
             return Unit.Value;
         }
 
-        IEnumerable<StopArrivals> transport = await _schedule.TransportAsync(request.StopId.Value);
-        transport = transport as StopArrivals[] ?? transport.ToArray();
+        IEnumerable<Transport> transport = await _schedule.TransportAsync(request.StopId.Value);
+        transport = transport as Transport[] ?? transport.ToArray();
         
         string message = transport.Any()
             ? GenerateMessage(from: transport)
@@ -38,7 +39,7 @@ internal sealed class StopQueryHandler : IRequestHandler<StopQuery>
         return Unit.Value;
     }
 
-    private string GenerateMessage(IEnumerable<StopArrivals> from)
+    private string GenerateMessage(IEnumerable<Transport> from)
     {
         StringBuilder sb = new(AverageMessageLength);
         foreach ((var transport, IEnumerable<Arrival> routes) in from)
@@ -47,7 +48,7 @@ internal sealed class StopQueryHandler : IRequestHandler<StopQuery>
             foreach (var route in routes)
             {
                 string time = route.HasValidTime ? $"_{route.TimeToArrive} мин._" : $"_{route.TimeToArrive}_";
-                sb.Append($"{route.TransportNumber}: {time}\n");
+                sb.Append($"{route.Number}: {time}\n");
             }
             sb.AppendLine();
         }

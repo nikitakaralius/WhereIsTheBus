@@ -1,7 +1,7 @@
 namespace WhereIsTheBus.ScheduleService.Controllers
 
 open Microsoft.AspNetCore.Mvc
-open WhereIsTheBus.ScheduleService.DTOs
+open WhereIsTheBus.ScheduleService.Dtos
 open WhereIsTheBus.ScheduleService.StopsParser
 
 [<ApiController>]
@@ -13,8 +13,8 @@ type StopsController() =
     member _.TransportBy(stopId: int) =
         task {
             try
-                let! stopArrivals = asyncStopArrivals stopId
-                return OkObjectResult(stopArrivals |> Seq.map(fun x -> x.Map())) :> IActionResult
+                let! transport = asyncStopTransport stopId
+                return OkObjectResult(transport |> toTransportDtos) :> IActionResult
             with
                 _ -> return NotFoundResult()
         }
