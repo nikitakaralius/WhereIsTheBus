@@ -1,0 +1,8 @@
+//
+//  Config.xcconfig
+//  IzhTransport
+//
+//  Created by Nikita Karalius on 22.05.2022.
+//
+
+SCHEDULE_SERVICE=localhost:5036/api/transport

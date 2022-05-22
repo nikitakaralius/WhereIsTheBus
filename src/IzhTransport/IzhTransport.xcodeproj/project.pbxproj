@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		850E8B66283A845D001C1484 /* Development.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 850E8B64283A845D001C1484 /* Development.xcconfig */; };
+		850E8B67283A845D001C1484 /* Production.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 850E8B65283A845D001C1484 /* Production.xcconfig */; };
+		850E8B6B283A84F3001C1484 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850E8B6A283A84F3001C1484 /* Configuration.swift */; };
 		85A97F7C283A4C6800937BCB /* IzhTransportApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A97F7B283A4C6800937BCB /* IzhTransportApp.swift */; };
 		85A97F7E283A4C6800937BCB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A97F7D283A4C6800937BCB /* ContentView.swift */; };
 		85A97F80283A4C6B00937BCB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85A97F7F283A4C6B00937BCB /* Assets.xcassets */; };
@@ -19,6 +22,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		850E8B64283A845D001C1484 /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
+		850E8B65283A845D001C1484 /* Production.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Production.xcconfig; sourceTree = "<group>"; };
+		850E8B68283A847A001C1484 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		850E8B6A283A84F3001C1484 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		85A97F78283A4C6800937BCB /* IzhTransport.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IzhTransport.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85A97F7B283A4C6800937BCB /* IzhTransportApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IzhTransportApp.swift; sourceTree = "<group>"; };
 		85A97F7D283A4C6800937BCB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -42,6 +49,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		850E8B69283A84E3001C1484 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				850E8B6A283A84F3001C1484 /* Configuration.swift */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
 		85A97F6F283A4C6800937BCB = {
 			isa = PBXGroup;
 			children = (
@@ -61,6 +76,7 @@
 		85A97F7A283A4C6800937BCB /* IzhTransport */ = {
 			isa = PBXGroup;
 			children = (
+				850E8B69283A84E3001C1484 /* Configuration */,
 				85F2B04E283A55CE00800B72 /* Services */,
 				85F2B04D283A550300800B72 /* Repositories */,
 				85F2B04C283A54F500800B72 /* Models */,
@@ -68,6 +84,9 @@
 				85F2B04A283A52F100800B72 /* Views */,
 				85A97F7B283A4C6800937BCB /* IzhTransportApp.swift */,
 				85A97F7F283A4C6B00937BCB /* Assets.xcassets */,
+				850E8B64283A845D001C1484 /* Development.xcconfig */,
+				850E8B65283A845D001C1484 /* Production.xcconfig */,
+				850E8B68283A847A001C1484 /* Info.plist */,
 				85A97F81283A4C6B00937BCB /* Preview Content */,
 			);
 			path = IzhTransport;
@@ -181,6 +200,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				850E8B66283A845D001C1484 /* Development.xcconfig in Resources */,
+				850E8B67283A845D001C1484 /* Production.xcconfig in Resources */,
 				85A97F83283A4C6B00937BCB /* Preview Assets.xcassets in Resources */,
 				85A97F80283A4C6B00937BCB /* Assets.xcassets in Resources */,
 			);
@@ -219,6 +240,7 @@
 				85F2B059283A59E100800B72 /* TransportStop.swift in Sources */,
 				85A97F7C283A4C6800937BCB /* IzhTransportApp.swift in Sources */,
 				85F2B051283A586100800B72 /* Enums.swift in Sources */,
+				850E8B6B283A84F3001C1484 /* Configuration.swift in Sources */,
 				85F2B055283A597D00800B72 /* StopArrivals.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -228,6 +250,7 @@
 /* Begin XCBuildConfiguration section */
 		85A97F84283A4C6B00937BCB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 850E8B64283A845D001C1484 /* Development.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -288,6 +311,7 @@
 		};
 		85A97F85283A4C6B00937BCB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 850E8B65283A845D001C1484 /* Production.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -342,6 +366,7 @@
 		};
 		85A97F87283A4C6B00937BCB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 850E8B64283A845D001C1484 /* Development.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -351,6 +376,8 @@
 				DEVELOPMENT_TEAM = NC9PAH879J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = IzhTransport/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -371,6 +398,7 @@
 		};
 		85A97F88283A4C6B00937BCB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 850E8B65283A845D001C1484 /* Production.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -380,6 +408,8 @@
 				DEVELOPMENT_TEAM = NC9PAH879J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = IzhTransport/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
