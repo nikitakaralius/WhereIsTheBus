@@ -11,6 +11,11 @@
 		85A97F7E283A4C6800937BCB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A97F7D283A4C6800937BCB /* ContentView.swift */; };
 		85A97F80283A4C6B00937BCB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85A97F7F283A4C6B00937BCB /* Assets.xcassets */; };
 		85A97F83283A4C6B00937BCB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85A97F82283A4C6B00937BCB /* Preview Assets.xcassets */; };
+		85F2B051283A586100800B72 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F2B050283A586100800B72 /* Enums.swift */; };
+		85F2B053283A591500800B72 /* Arrival.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F2B052283A591500800B72 /* Arrival.swift */; };
+		85F2B055283A597D00800B72 /* StopArrivals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F2B054283A597D00800B72 /* StopArrivals.swift */; };
+		85F2B057283A59B300800B72 /* TransportRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F2B056283A59B300800B72 /* TransportRoute.swift */; };
+		85F2B059283A59E100800B72 /* TransportStop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F2B058283A59E100800B72 /* TransportStop.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +24,11 @@
 		85A97F7D283A4C6800937BCB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		85A97F7F283A4C6B00937BCB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		85A97F82283A4C6B00937BCB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		85F2B050283A586100800B72 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		85F2B052283A591500800B72 /* Arrival.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arrival.swift; sourceTree = "<group>"; };
+		85F2B054283A597D00800B72 /* StopArrivals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopArrivals.swift; sourceTree = "<group>"; };
+		85F2B056283A59B300800B72 /* TransportRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportRoute.swift; sourceTree = "<group>"; };
+		85F2B058283A59E100800B72 /* TransportStop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportStop.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,8 +61,12 @@
 		85A97F7A283A4C6800937BCB /* IzhTransport */ = {
 			isa = PBXGroup;
 			children = (
+				85F2B04E283A55CE00800B72 /* Services */,
+				85F2B04D283A550300800B72 /* Repositories */,
+				85F2B04C283A54F500800B72 /* Models */,
+				85F2B04B283A536A00800B72 /* ViewModels */,
+				85F2B04A283A52F100800B72 /* Views */,
 				85A97F7B283A4C6800937BCB /* IzhTransportApp.swift */,
-				85A97F7D283A4C6800937BCB /* ContentView.swift */,
 				85A97F7F283A4C6B00937BCB /* Assets.xcassets */,
 				85A97F81283A4C6B00937BCB /* Preview Content */,
 			);
@@ -65,6 +79,47 @@
 				85A97F82283A4C6B00937BCB /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		85F2B04A283A52F100800B72 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				85A97F7D283A4C6800937BCB /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		85F2B04B283A536A00800B72 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		85F2B04C283A54F500800B72 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				85F2B050283A586100800B72 /* Enums.swift */,
+				85F2B052283A591500800B72 /* Arrival.swift */,
+				85F2B054283A597D00800B72 /* StopArrivals.swift */,
+				85F2B056283A59B300800B72 /* TransportRoute.swift */,
+				85F2B058283A59E100800B72 /* TransportStop.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		85F2B04D283A550300800B72 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		85F2B04E283A55CE00800B72 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -159,7 +214,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				85A97F7E283A4C6800937BCB /* ContentView.swift in Sources */,
+				85F2B057283A59B300800B72 /* TransportRoute.swift in Sources */,
+				85F2B053283A591500800B72 /* Arrival.swift in Sources */,
+				85F2B059283A59E100800B72 /* TransportStop.swift in Sources */,
 				85A97F7C283A4C6800937BCB /* IzhTransportApp.swift in Sources */,
+				85F2B051283A586100800B72 /* Enums.swift in Sources */,
+				85F2B055283A597D00800B72 /* StopArrivals.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
