@@ -1,3 +1,3 @@
 namespace WhereIsTheBus.TelegramBot.Domain.Records;
 
-public record StopArrivals(TransportType Transport, IEnumerable<Arrival> Arrivals);
+internal sealed record StopArrivals(TransportType Transport, IEnumerable<Arrival> Arrivals);

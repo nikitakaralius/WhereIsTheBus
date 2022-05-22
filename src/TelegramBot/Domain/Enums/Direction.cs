@@ -1,6 +1,6 @@
 namespace WhereIsTheBus.TelegramBot.Domain.Enums;
 
-public enum Direction
+internal enum Direction
 {
     None = 0,
     Direct = 1,

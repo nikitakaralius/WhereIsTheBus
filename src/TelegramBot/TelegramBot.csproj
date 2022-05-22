@@ -16,4 +16,10 @@
     <PackageReference Include="Telegram.Bot" Version="17.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>WhereIsTheBus.TelegramBot.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
 </Project>

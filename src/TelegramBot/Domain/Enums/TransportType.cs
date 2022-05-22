@@ -1,6 +1,6 @@
 namespace WhereIsTheBus.TelegramBot.Domain.Enums;
 
-public enum TransportType
+internal enum TransportType
 {
     None = 0,
     Bus = 1,
