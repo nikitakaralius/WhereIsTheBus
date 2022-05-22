@@ -1,4 +1,4 @@
-namespace WhereIsTheBus.Domain.Records;
+namespace WhereIsTheBus.TelegramBot.Domain.Records;
 
 public record TransportRoute(TransportType Transport, int Number, Direction Direction)
 {

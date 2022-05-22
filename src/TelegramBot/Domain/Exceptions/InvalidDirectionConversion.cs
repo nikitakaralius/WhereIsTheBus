@@ -1,4 +1,4 @@
-namespace WhereIsTheBus.Domain.Exceptions;
+namespace WhereIsTheBus.TelegramBot.Domain.Exceptions;
 
 public class InvalidDirectionConversion : Exception
 {

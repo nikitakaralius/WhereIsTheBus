@@ -41,9 +41,9 @@ internal sealed class StopQueryHandler : IRequestHandler<StopQuery>
     private string GenerateMessage(IEnumerable<StopArrivals> from)
     {
         StringBuilder sb = new(AverageMessageLength);
-        foreach ((string name, IEnumerable<Arrival> routes) in from)
+        foreach ((var transport, IEnumerable<Arrival> routes) in from)
         {
-            sb.Append($"*{name}*\n");
+            sb.Append($"*{transport}*\n");
             foreach (var route in routes)
             {
                 string time = route.HasValidTime ? $"_{route.TimeToArrive} мин._" : $"_{route.TimeToArrive}_";

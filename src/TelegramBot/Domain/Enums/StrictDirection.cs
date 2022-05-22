@@ -1,13 +1,12 @@
-using WhereIsTheBus.Domain.Exceptions;
+using WhereIsTheBus.TelegramBot.Domain.Exceptions;
 
-namespace WhereIsTheBus.Domain.Enums;
+namespace WhereIsTheBus.TelegramBot.Domain.Enums;
 
-public enum Direction
+public enum StrictDirection
 {
     None = 0,
     Direct = 1,
-    Return = 2,
-    Both = 3
+    Return = 2
 }
 
 public static class DirectionExtensions
